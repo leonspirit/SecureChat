@@ -31,7 +31,7 @@ public class Main {
 		} 
 		catch (Exception noServer)//IF DIDNT CONNECT PRINT THAT THEY DIDNT
 		{
-			System.out.println("The server might not be up at this time.");
+			System.out.println("The server might not be up at thits time.");
 			System.out.println("Please try again later.");
 		}
 	}
