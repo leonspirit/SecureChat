@@ -21,6 +21,9 @@ public class User {
         _userlist.add(new Pair("Budi", "Budi"));
         _userlist.add(new Pair("Rudi", "Rudi"));
         _userlist.add(new Pair("Luci", "Luci"));
+        _userlist.add(new Pair("ari", "a"));
+        _userlist.add(new Pair("budi", "b"));
+        _userlist.add(new Pair("cindy", "c"));
     }
     
     public ArrayList<Pair<String,String>> getUserList() {
