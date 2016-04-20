@@ -140,6 +140,11 @@ public class Client implements Runnable {
                         String[] vals = input.split(" ");
 
                         if (this._loginlist.contains(new Pair(this.socket, this.username)) == true) {
+                            
+                            for(Group g : _grouplist){
+                                g.delUser(this.username);
+                            }
+                            
                             this._loginlist.remove(new Pair(this.socket, this.username));
                             System.out.println(this._loginlist.size());
                             out.println("SUCCESS logout");
@@ -232,55 +237,31 @@ public class Client implements Runnable {
                             System.out.println("gm " + vals[1] + " by " + this.username + " failed.");
                             out.println("FAIL gm");
                             out.flush();
-                        } else {
-                            ArrayList<String> users = sending.getGroupList();
-                            for(String s : users){
-                                boolean succ = group_msg(input,s,vals[1]);
-                                if(!succ){
-                                    out.println("FAIL gm to "+s);
-                                    out.flush();
+                        }                
+                        else {
+                            boolean found = sending.checkUser(this.username);
+                            if(!found){
+                                System.out.println("gm " + vals[1] + " by " + this.username + " failed.");
+                                out.println("FAIL gm");
+                                out.flush();
+                            }
+                            else{
+                                ArrayList<String> users = sending.getGroupList();
+                                for (String s : users) {
+
+                                    if (!this.username.equals(s)) {
+                                        boolean succ = group_msg(input, s, vals[1]);
+                                        if (!succ) {
+                                            out.println("FAIL gm to " + s);
+                                            out.flush();
+                                        }
+                                    }
                                 }
                             }
+                            
                         }
                     }
-
-                                        // param GM <groupName> <message>
-                                        /*
-                     if (input.split(" ")[0].toLowerCase().equals("gm") == true) {
-                     String[] vals = input.split(" ");
-                                            
-                     boolean exist = false;
-                                            
-                     for(Pair<String, String> selGroup : _grouplist) {
-                     if (selGroup.getSecond().equals(this.username)) {
-                     exist = true;
-                     }
-                     }
-                                            
-                     if (exist == true) {
-                     for(Pair<String, String> selGroup : _grouplist) {
-                     if (selGroup.getFirst().equals(vals[1])) {
-                     for(Pair<Socket, String> cur : _loginlist) {
-                     if (cur.getSecond().equals(selGroup.getSecond()) && !cur.getFirst().equals(socket)) {
-                     PrintWriter outDest = new PrintWriter(cur.getFirst().getOutputStream());
-                     String messageOut = "";
-                     for (int j = 2; j<vals.length; j++) {
-                     messageOut += vals[j] + " ";
-                     }
-                     System.out.println(this.username + " to " + vals[1] + " group: " + messageOut);
-                     outDest.println(this.username + " @ " + vals[1] + " group: " + messageOut);
-                     outDest.flush();
-                     }
-                     }
-                     }
-                     }
-                     } else {
-                     System.out.println("gm to " + vals[1] + " by " + this.username + " failed.");
-                     out.println("FAIL gm");
-                     out.flush();
-                     }
-                     }
-                     */
+                    
                     // param BM <message>
                     if (input.split(" ")[0].toLowerCase().equals("bm") == true) {
                         String[] vals = input.split(" ");

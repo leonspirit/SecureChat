@@ -30,6 +30,19 @@ public class Group {
     }
     
     public void updateGroup(String memberName) {
+        groupMember.remove(memberName);
         groupMember.add(memberName);
+    }
+    
+    public boolean checkUser(String username){
+        
+        for(String s : groupMember){
+            if(username.equals(s))return true;
+        }
+        return false;
+    }
+    
+    public void delUser(String username){
+        groupMember.remove(username);
     }
 }
