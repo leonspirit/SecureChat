@@ -140,6 +140,30 @@ public class Client implements Runnable{
                                             }
                                         }
                                         
+                                        //param JG <groupName>
+                                        if (input.split(" ")[0].toLowerCase().equals("jg") == true){
+                                            String[] vals = input.split(" ");
+                                            
+                                            boolean exist = false;
+                                            
+                                            for(Group selGroup : _grouplist){
+                                                if(selGroup.getName().equals(vals[1])) {
+                                                    exist = true;
+                                                    selGroup.updateGroup(this.username);
+                                                }
+                                            }
+                                            
+                                            if(exist == true) {
+                                                System.out.println("jg " + vals[1] + " by " + this.username + " successed.");
+                                                out.println("SUCCESS jg");
+                                                out.flush();
+                                            } else {
+                                                System.out.println("jg " + vals[1] + " by " + this.username + " failed.");
+                                                out.println("FAIL jg");
+                                                out.flush();
+                                            }
+                                        }
+                                        
                                         // param GM <groupName> <message>
                                         /*
                                         if (input.split(" ")[0].toLowerCase().equals("gm") == true) {
