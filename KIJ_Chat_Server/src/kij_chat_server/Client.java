@@ -3,6 +3,7 @@ package kij_chat_server;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /** original ->http://www.dreamincode.net/forums/topic/262304-simple-client-and-server-chat-program/
@@ -19,14 +20,13 @@ public class Client implements Runnable{
         
         private ArrayList<Pair<Socket,String>> _loginlist;
         private ArrayList<Pair<String,String>> _userlist;
-        private ArrayList<Pair<String,String>> _grouplist;
+        private static List<Group> _grouplist = new ArrayList<Group>();
 	
-	public Client(Socket s, ArrayList<Pair<Socket,String>> _loginlist, ArrayList<Pair<String,String>> _userlist, ArrayList<Pair<String,String>> _grouplist)
+	public Client(Socket s, ArrayList<Pair<Socket,String>> _loginlist, ArrayList<Pair<String,String>> _userlist)
 	{
 		socket = s;//INSTANTIATE THE SOCKET)
                 this._loginlist = _loginlist;
                 this._userlist = _userlist;
-                this._grouplist = _grouplist;
 	}
 	
 	@Override
@@ -118,15 +118,17 @@ public class Client implements Runnable{
                                             
                                             boolean exist = false;
                                             
-                                            for(Pair<String, String> selGroup : _grouplist) {
-                                                if (selGroup.getFirst().equals(vals[1])) {
+                                            for(Group selGroup : _grouplist) {
+                                                if (selGroup.getName().equals(vals[1])) {
                                                     exist = true;
                                                 }
                                             }
                                             
                                             if(exist == false) {
-                                                Group group = new Group();
-                                                int total = group.updateGroup(vals[1], this.username, _grouplist);
+                                                Group newGroup = new Group(vals[1]);
+                                                newGroup.updateGroup(this.username);
+                                                _grouplist.add(newGroup);
+                                                int total = _grouplist.size();
                                                 System.out.println("total group: " + total);
                                                 System.out.println("cg " + vals[1] + " by " + this.username + " successed.");
                                                 out.println("SUCCESS cg");
@@ -139,6 +141,7 @@ public class Client implements Runnable{
                                         }
                                         
                                         // param GM <groupName> <message>
+                                        /*
                                         if (input.split(" ")[0].toLowerCase().equals("gm") == true) {
                                             String[] vals = input.split(" ");
                                             
@@ -173,6 +176,7 @@ public class Client implements Runnable{
                                                 out.flush();
                                             }
                                         }
+                                        */
                                         
                                         // param BM <message>
                                         if (input.split(" ")[0].toLowerCase().equals("bm") == true) {

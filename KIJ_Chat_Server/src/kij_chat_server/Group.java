@@ -13,43 +13,23 @@ import java.util.ArrayList;
  */
 public class Group {
     // Group-User list
-    private ArrayList<Pair<String,String>> _grouplist = new ArrayList<>();
+    //private ArrayList<Pair<String,String>> _grouplist = new ArrayList<>();
+    private String groupName;
+    private ArrayList<String> groupMember = new ArrayList<String>();
     
-    Group() {
-        _grouplist.add(new Pair("Admin", "Admin"));
-        _grouplist.add(new Pair("Admin", "Andi"));
-        _grouplist.add(new Pair("User", "Budi"));
-        _grouplist.add(new Pair("User", "Rudi"));
-        _grouplist.add(new Pair("User", "Luci"));
+    public String getName(){
+        return groupName;
     }
     
-    Group(ArrayList<Pair<String,String>> _grouplist) {
-        this._grouplist.clear();
-        for (int i = 0; i<_grouplist.size(); i++) {
-            this._grouplist.add(new Pair(_grouplist.get(i).getFirst(), _grouplist.get(i).getSecond()));
-        }
+    Group(String name) {
+        this.groupName = name;
     }
     
-    public ArrayList<Pair<String,String>> getGroupList() {
-        return _grouplist;
+    public ArrayList<String> getGroupList() {
+        return groupMember;
     }
     
-    public int updateGroup(String groupName, String user, ArrayList<Pair<String,String>> _grouplist) {
-        _grouplist.add(new Pair(groupName, user));
-        
-        return this.countGroup();
-    }
-    
-    private int countGroup() {
-        ArrayList<String> listGroup = new ArrayList<>();
-        int count = 0;
-        for (Pair<String, String> selGroup : _grouplist) {
-            if (listGroup.contains(selGroup.getFirst()) == false) {
-                count++;
-                listGroup.add(selGroup.getFirst());
-            }
-        }
-        
-        return count;
+    public void updateGroup(String memberName) {
+        groupMember.add(memberName);
     }
 }
