@@ -6,6 +6,7 @@
 package kij_chat_client;
 
 import java.util.ArrayList;
+import javafx.util.Pair;
 
 /**
  *
@@ -17,7 +18,7 @@ public class Keys {
     private String privUserKey;
     private String pubServerKey;
     private String userCertificate;
-    private ArrayList<String> certificates;
+    private ArrayList<Pair<String,String>> certificates;
 
     public String getPubUserKey() {
         return pubUserKey;
@@ -47,15 +48,15 @@ public class Keys {
         return userCertificate;
     }
 
-    public void setUserCertificate(String userCertificate) {
-        this.userCertificate = userCertificate;
+    public void addUserCertificate(Pair<String,String>cert){
+        certificates.add(cert);
     }
-
-    public ArrayList<String> getCertificates() {
+    
+    public ArrayList<Pair<String,String>> getCertificates() {
         return certificates;
     }
 
-    public void setCertificates(ArrayList<String> certificates) {
+    public void setCertificates(ArrayList<Pair<String,String>> certificates) {
         this.certificates = certificates;
     }
     
