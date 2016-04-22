@@ -74,8 +74,13 @@ public class Read_37 implements Runnable {
                             keepGoing = false;
                         }
                         else if (vals[1].toLowerCase().equals("login")){
-                            log.clear();
                             log.add("true");
+                        }
+                    }
+                    else if(vals[0].toLowerCase().equals("failed")){
+                        System.out.println(input);
+                        if(vals[1].toLowerCase().equals("login")){
+                            log.clear();
                         }
                     }
                     else{
