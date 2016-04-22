@@ -6,23 +6,28 @@
 package kij_chat_client;
 
 /*import java.net.Socket;*/
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Read_37 implements Runnable {
 
     private Scanner in;//MAKE SOCKET INSTANCE VARIABLE
+    private PrintWriter out;
     String input;
     boolean keepGoing = true;
     ArrayList<String> log;
     ArrayList<Group> groupList;
     ArrayList<String> userList;
+    Keys key;
 
-    public Read_37(Scanner in, ArrayList<String> log, ArrayList<Group> groupList, ArrayList<String> userList) {
+    public Read_37(Scanner in, PrintWriter out, ArrayList<String> log, ArrayList<Group> groupList, ArrayList<String> userList, Keys key) {
         this.in = in;
+        this.out = out;
         this.log = log;
         this.groupList = groupList;
         this.userList = userList;
+        this.key = key;
     }
 
     @Override
@@ -53,6 +58,9 @@ public class Read_37 implements Runnable {
                     }
                     else if(vals[0].toLowerCase().equals("u")){
                         userList.add(vals[1]);
+                    }
+                    else if(vals[0].toLowerCase().equals("rc")){
+                        
                     }
                     else if(vals[0].toLowerCase().equals("success")){
                         System.out.println(input);

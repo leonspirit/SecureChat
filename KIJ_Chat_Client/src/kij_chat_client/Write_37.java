@@ -18,13 +18,17 @@ public class Write_37 implements Runnable {
     ArrayList<String> log;
     ArrayList<Group> groupList;
     ArrayList<String> userList;
+    Keys key;
 
-    public Write_37(Scanner chat, PrintWriter out, ArrayList<String> log, ArrayList<Group> groupList, ArrayList<String> userList) {
+    public Write_37(Scanner chat, PrintWriter out, ArrayList<String> log, ArrayList<Group> groupList, ArrayList<String> userList, Keys key) {
         this.chat = chat;
         this.out = out;
         this.log = log;
         this.groupList = groupList;
         this.userList = userList;
+        this.key = key;
+        out.println("PU " + key.getPubUserKey());
+        out.flush();
     }
 
     @Override
@@ -37,12 +41,35 @@ public class Write_37 implements Runnable {
                 out.println(input);//SEND IT TO THE SERVER
                 out.flush();//FLUSH THE STREAM
 
+                String vals[] = input.split(" ");
+                if(vals[0].toLowerCase().equals("login")){
+                    
+                }
+                else if(vals[0].toLowerCase().equals("logout")){
+                    
+                }
+                else if(vals[0].toLowerCase().equals("pm")){
+                    
+                }
+                else if(vals[0].toLowerCase().equals("cg")){
+                    
+                }
+                else if(vals[0].toLowerCase().equals("jg")){
+                    
+                }
+                else if(vals[0].toLowerCase().equals("gm")){
+                    
+                }
+                else if(vals[0].toLowerCase().equals("bm")){
+                    
+                }
+                /*
                 if (input.contains("logout")) {
                     if (log.contains("true")) {
                         keepGoing = false;
                     }
-
                 }
+                */
             }
         } catch (Exception e) {
             e.printStackTrace();//MOST LIKELY WONT BE AN ERROR, GOOD PRACTICE TO CATCH THOUGH

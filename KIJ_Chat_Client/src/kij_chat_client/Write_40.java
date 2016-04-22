@@ -18,13 +18,15 @@ public class Write_40 implements Runnable {
     ArrayList<String> log;
     ArrayList<Group> groupList;
     ArrayList<String> userList;
+    Keys key;
 
-    public Write_40(Scanner chat, PrintWriter out, ArrayList<String> log, ArrayList<Group> groupList, ArrayList<String> userList) {
+    public Write_40(Scanner chat, PrintWriter out, ArrayList<String> log, ArrayList<Group> groupList, ArrayList<String> userList, Keys key) {
         this.chat = chat;
         this.out = out;
         this.log = log;
         this.groupList = groupList;
         this.userList = userList;
+        this.key = key;
     }
 
     @Override
