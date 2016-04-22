@@ -12,17 +12,19 @@ import static javafx.application.Platform.exit;
  */
 public class Main {
 
-    private final static int PORT = 6677;//SET A CONSTANT VARIABLE PORT
+    private final static int PORT_37 = 3237;
+    private final static int PORT_40 = 4047;
     private final static String HOST = "localhost";//SET A CONSTANT VARIABLE HOST
 
     public static void main(String[] args) throws IOException {
         try {
 
-            Socket s = new Socket(HOST, PORT);//CONNECT TO THE SERVER
-
+            Socket s37 = new Socket(HOST, PORT_37);//CONNECT TO THE SERVER
+            Socket s40 = new Socket(HOST, PORT_40);
+            
             System.out.println("You connected to " + HOST);//IF CONNECTED THEN PRINT IT OUT
 
-            Client client = new Client(s);//START NEW CLIENT OBJECT
+            Client client = new Client(s37, s40);//START NEW CLIENT OBJECT
 
             Thread t = new Thread(client);//INITIATE NEW THREAD
             t.start();//START THREAD
