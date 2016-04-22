@@ -15,14 +15,18 @@ public class Read_40 implements Runnable {
     String input;
     boolean keepGoing = true;
     ArrayList<String> log;
-    ArrayList<Group> groupList;
-    ArrayList<String> userList;
-
-    public Read_40(Scanner in, ArrayList<String> log, ArrayList<Group> groupList, ArrayList<String> userList) {
+    ArrayList<Certificate> cert;
+    Pair<String,String> our_cert;
+    private boolean init;
+    StringBuffer public_key_ca;
+    
+    public Read_40(Scanner in, ArrayList<String> log, ArrayList<Certificate> cert, Pair<String,String> our_cert,StringBuffer public_key_ca) {
         this.in = in;
         this.log = log;
-        this.groupList = groupList;
-        this.userList = userList;
+        this.cert =cert;
+        this.our_cert = our_cert;
+        this.init=false;
+        this.public_key_ca=public_key_ca;
     }
 
     @Override
@@ -34,6 +38,31 @@ public class Read_40 implements Runnable {
                 if (this.in.hasNext()) {
                     //IF THE SERVER SENT US SOMETHING
                     input = this.in.nextLine();
+                    if(!init)
+                    {
+                        if(input.split(" ")[0].equals("C"))
+                        {
+                            String a=input.split(" ")[1];
+                            String b= input.split(" ")[2];
+                            our_cert= new Pair(a,b);//g eruh bener atau salah;
+                            
+                        }
+                        if(input.split(" ")[0].equals("PS"))
+                        {
+                            public_key_ca.append(input.split(" ")[1]);
+                        }
+                        init=true;
+                    }
+                    else
+                    {
+                        if(input.split(" ")[0].equals("GC"))
+                        {
+                            Pair<String,String> data= new Pair(input.split(" ")[3],input.split(" ")[4]);
+                            Certificate c= new Certificate(input.split(" ")[2]);
+                            c.addpublickey(data);
+                            cert.add(c);
+                        }
+                    }
                     System.out.println(input);//PRINT IT OUT
                     if (input.split(" ")[0].toLowerCase().equals("success")) {
                         if (input.split(" ")[1].toLowerCase().equals("logout")) {

@@ -2,8 +2,18 @@ package kij_chat_client;
 
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  * original
@@ -19,7 +29,46 @@ public class Client implements Runnable {
     volatile ArrayList<String> log = new ArrayList<>();
     volatile ArrayList<Group> groupList = new ArrayList<Group>();
     volatile ArrayList<String> userList = new ArrayList<String>();
-
+    //volatile ArrayList<String> public_key = new ArrayList<String>();
+    volatile StringBuffer public_key_ca = new StringBuffer();
+    volatile ArrayList<Certificate> cert = new ArrayList<Certificate>();
+    volatile StringBuffer commandto_40 = new StringBuffer();
+    volatile Pair<String,String> our_cert;
+    private static String public_key_user;
+    private static String private_key_user;
+    
+    public static void generatersa()
+    {
+        try {
+            KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
+            keyGen.initialize(512,random);
+            KeyPair pair = keyGen.generateKeyPair();
+            PrivateKey privateKey = pair.getPrivate();
+            PublicKey publicKey = pair.getPublic();
+            byte[] privateKeyBytes = privateKey.getEncoded();
+            //System.out.println(privateKeyBytes);
+            byte[] publicKeyBytes = publicKey.getEncoded();
+            //System.out.println(publicKeyBytes);
+            StringBuffer retString = new StringBuffer();
+            for (int i = 0; i < publicKeyBytes.length; ++i) {
+                retString.append(Integer.toHexString(0x0100 + (publicKeyBytes[i] & 0x00FF)).substring(1));
+            }
+            //System.out.println("public"+retString);
+            public_key_user= retString.toString();
+            
+            StringBuffer retString1 = new StringBuffer();
+            for (int i = 0; i < privateKeyBytes.length; ++i) {
+                retString1.append(Integer.toHexString(0x0100 + (privateKeyBytes[i] & 0x00FF)).substring(1));
+            }
+            //System.out.println("private"+retString1);
+            private_key_user= retString.toString();
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchProviderException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public Client(Socket s37, Socket s40) {
         socket_37 = s37;//INSTANTIATE THE INSTANCE VARIABLE
         socket_40 = s40;
@@ -30,6 +79,7 @@ public class Client implements Runnable {
     public void run()//INHERIT THE RUN METHOD FROM THE Runnable INTERFACE
     {
         try {
+            generatersa();
             Scanner chat = new Scanner(System.in);//GET THE INPUT FROM THE CMD
             
             Scanner in37 = new Scanner(socket_37.getInputStream());//GET THE CLIENTS INPUT STREAM (USED TO READ DATA SENT FROM THE SERVER)
@@ -51,7 +101,7 @@ public class Client implements Runnable {
             Thread tr_37 = new Thread(reader_37);
             tr_37.start();
             
-            Read_40 reader_40 = new Read_40(in40, log, groupList, userList);
+            Read_40 reader_40 = new Read_40(in40, log,cert,our_cert,public_key_ca);
             Thread tr_40 = new Thread(reader_40);
             tr_40.start();
             
@@ -59,7 +109,7 @@ public class Client implements Runnable {
             Thread tw_37 = new Thread(writer_37);
             tw_37.start();
             
-            Write_40 writer_40 = new Write_40(chat, out40, log, groupList, userList);
+            Write_40 writer_40 = new Write_40(chat, out40, log, cert, public_key_user,commandto_40);
             Thread tw_40 = new Thread(writer_40);
             tw_40.start();
             
