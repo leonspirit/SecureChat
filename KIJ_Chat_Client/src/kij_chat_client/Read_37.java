@@ -34,18 +34,40 @@ public class Read_37 implements Runnable {
                 if (this.in.hasNext()) {
                     //IF THE SERVER SENT US SOMETHING
                     input = this.in.nextLine();
-                    System.out.println(input);//PRINT IT OUT
-                    if (input.split(" ")[0].toLowerCase().equals("success")) {
-                        if (input.split(" ")[1].toLowerCase().equals("logout")) {
+                    
+                    String vals[] = input.split(" ");
+                    if(vals[0].toLowerCase().equals("mg")){
+                        
+                        boolean created = false;
+                        Group now = null;
+                        for (Group g : groupList){
+                            if(g.getName().equals(vals[1])){
+                                created = true;
+                                now = g;
+                            }
+                        }
+                        
+                        if(created == false)now = new Group(vals[1]);
+                        now.updateGroup(vals[2]);
+                                    
+                    }
+                    else if(vals[0].toLowerCase().equals("u")){
+                        userList.add(vals[1]);
+                    }
+                    else if(vals[0].toLowerCase().equals("success")){
+                        System.out.println(input);
+                        if(vals[1].toLowerCase().equals("logout")){
                             keepGoing = false;
-                        } else if (input.split(" ")[1].toLowerCase().equals("login")) {
+                        }
+                        else if (vals[1].toLowerCase().equals("login")){
                             log.clear();
                             log.add("true");
                         }
                     }
-
+                    else{
+                        System.out.println(input);
+                    }
                 }
-
             }
         } catch (Exception e) {
             e.printStackTrace();//MOST LIKELY WONT BE AN ERROR, GOOD PRACTICE TO CATCH THOUGH
