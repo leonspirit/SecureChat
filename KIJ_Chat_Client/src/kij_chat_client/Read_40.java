@@ -40,7 +40,7 @@ public class Read_40 implements Runnable {
                     input = this.in.nextLine();
                     if(!init)
                     {
-                        if(input.split(" ")[0].equals("C"))
+                        if(input.split(" ")[0].toLowerCase().equals("c"))
                         {
                             String a=input.split(" ")[1];
                             String b= input.split(" ")[2];
@@ -48,7 +48,7 @@ public class Read_40 implements Runnable {
                             
                         }
                         input= this.in.nextLine();
-                        if(input.split(" ")[0].equals("PS"))
+                        if(input.split(" ")[0].toLowerCase().equals("ps"))
                         {
                             public_key_ca.append(input.split(" ")[1]);
                         }
@@ -56,7 +56,7 @@ public class Read_40 implements Runnable {
                     }
                     else
                     {
-                        if(input.split(" ")[0].equals("GC"))
+                        if(input.split(" ")[0].toLowerCase().equals("gc"))
                         {
                             Pair<String,String> data= new Pair(input.split(" ")[3],input.split(" ")[4]);
                             Certificate c= new Certificate(input.split(" ")[2]);
