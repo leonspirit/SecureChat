@@ -57,12 +57,15 @@ public class Write_37 implements Runnable {
                 
                 String vals[] = input.split(" ");
                 if(vals[0].toLowerCase().equals("login")){
+                    //System.out.println(input);
                     out.println(input);
+                    out.flush();
                     log.clear();
                     log.add(vals[1]);
                 }
                 else if(vals[0].toLowerCase().equals("logout")){
                     out.println(input);
+                    out.flush();
                     if(log.contains("true")){
                         keepGoing = false;
                     }
@@ -76,9 +79,11 @@ public class Write_37 implements Runnable {
                 }
                 else if(vals[0].toLowerCase().equals("cg")){
                     out.println(input);
+                    out.flush();
                 }
                 else if(vals[0].toLowerCase().equals("jg")){
                     out.println(input);
+                    out.flush();
                 }
                 else if(vals[0].toLowerCase().equals("gm")){
                     String messageOut = "";

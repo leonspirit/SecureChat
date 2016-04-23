@@ -104,11 +104,10 @@ public class Client implements Runnable {
 //					System.out.println("Client Said: " + input);//PRINT IT OUT TO THE SCREEN
 //					out.println("You Said: " + input);//RESEND IT TO THE CLIENT
 //					out.flush();//FLUSH THE STREAM
-
+                    //System.out.println(input);
                     // param LOGIN <userName> <pass>
                     if (input.split(" ")[0].toLowerCase().equals("login") == true) {
                         String[] vals = input.split(" ");
-
                         if (this._userlist.contains(new Pair(vals[1], vals[2])) == true) {
                             if (this.login == false) {
                                 this._loginlist.add(new Pair(this.socket, vals[1]));
@@ -271,6 +270,10 @@ public class Client implements Runnable {
                             out.println("FAIL broadcast to " + vals[2]);
                             out.flush();
                         }               
+                    }
+                    
+                    if(input.split(" ")[0].toLowerCase().equals("pu")){
+                        
                     }
                 }
             }
