@@ -36,7 +36,7 @@ public class Client implements Runnable {
         String[] vals = input.split(" ");
 
         for (Pair<Socket, String> cur : _loginlist) {
-            if (cur.getSecond().equals(vals[1])) {
+            if (cur.getSecond().equals(vals[2])) {
                 PrintWriter outDest = null;
                 try {
                     outDest = new PrintWriter(cur.getFirst().getOutputStream());
