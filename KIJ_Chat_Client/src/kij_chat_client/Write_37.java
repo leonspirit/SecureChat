@@ -57,7 +57,7 @@ public class Write_37 implements Runnable {
                 
                 String vals[] = input.split(" ");
                 if(vals[0].toLowerCase().equals("login")){
-                    //System.out.println(input);
+
                     out.println(input);
                     out.flush();
                     log.clear();

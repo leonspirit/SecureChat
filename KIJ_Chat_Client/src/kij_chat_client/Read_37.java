@@ -43,7 +43,7 @@ public class Read_37 implements Runnable {
                     
                     String vals[] = input.split(" ");
                     if(vals[0].toLowerCase().equals("mg")){
-                        
+                        System.out.println(input);
                         boolean created = false;
                         Group now = null;
                         for (Group g : groupList){
@@ -55,7 +55,7 @@ public class Read_37 implements Runnable {
                         
                         if(created == false)now = new Group(vals[1]);
                         now.updateGroup(vals[2]);
-                  
+                        groupList.add(now);
                     }
                     else if(vals[0].toLowerCase().equals("u")){
                         userList.add(vals[1]);

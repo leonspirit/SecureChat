@@ -106,8 +106,10 @@ public class Client implements Runnable {
 //					out.flush();//FLUSH THE STREAM
                     //System.out.println(input);
                     // param LOGIN <userName> <pass>
+                    System.out.println(input);
                     if (input.split(" ")[0].toLowerCase().equals("login") == true) {
                         String[] vals = input.split(" ");
+
                         if (this._userlist.contains(new Pair(vals[1], vals[2])) == true) {
                             if (this.login == false) {
                                 this._loginlist.add(new Pair(this.socket, vals[1]));
