@@ -6,7 +6,7 @@
 package kij_chat_client;
 
 import java.util.ArrayList;
-import javafx.util.Pair;
+
 
 /**
  *
@@ -14,41 +14,49 @@ import javafx.util.Pair;
  */
 public class Keys {
  
-    private String pubUserKey;
-    private String privUserKey;
-    private String pubServerKey;
-    private String userCertificate;
+    private static String pubUserKey;
+    private static String privUserKey;
+
+    
+    private static String pubServerKey;
+    private static Pair<String,String> userCertificate;
     private ArrayList<Pair<String,String>> certificates;
 
-    public String getPubUserKey() {
+    public synchronized static String getPubUserKey() {
         return pubUserKey;
     }
-
-    public void setPubUserKey(String pubUserKey) {
-        this.pubUserKey = pubUserKey;
-    }
-
-    public String getPrivUserKey() {
-        return privUserKey;
-    }
-
-    public void setPrivUserKey(String privUserKey) {
-        this.privUserKey = privUserKey;
-    }
-
-    public String getPubServerKey() {
-        return pubServerKey;
-    }
-
-    public void setPubServerKey(String pubServerKey) {
-        this.pubServerKey = pubServerKey;
-    }
-
-    public String getUserCertificate() {
+    public synchronized static Pair<String, String> getUserCertificate() {
         return userCertificate;
     }
 
-    public void addUserCertificate(Pair<String,String>cert){
+    public static void setUserCertificate(Pair<String, String> userCertificate) {
+        Keys.userCertificate = userCertificate;
+    }
+    public static void setPubUserKey(String pubUserKey) {
+        Keys.pubUserKey = pubUserKey;
+    }
+
+    public synchronized static String getPrivUserKey() {
+        return privUserKey;
+    }
+
+    public static void setPrivUserKey(String privUserKey) {
+        Keys.privUserKey = privUserKey;
+    }
+
+    public synchronized static String getPubServerKey() {
+        return pubServerKey;
+    }
+
+    public static void setPubServerKey(String pubServerKey) {
+        Keys.pubServerKey = pubServerKey;
+    }
+
+    /*public static Pair<String,String> getUserCertificate() {
+        return userCertificate;
+    }*/
+
+    public void addUserCertificate(Pair< String , String> cert ){
         certificates.add(cert);
     }
     

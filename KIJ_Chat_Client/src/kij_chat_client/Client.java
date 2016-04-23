@@ -34,7 +34,7 @@ public class Client implements Runnable {
     //volatile ArrayList<String> public_key = new ArrayList<String>();
     volatile StringBuffer public_key_ca = new StringBuffer();
     volatile ArrayList<Certificate> cert = new ArrayList<Certificate>();
-    volatile StringBuffer commandto_40 = new StringBuffer();
+    //volatile StringBuffer commandto_40 = new StringBuffer();
     volatile Pair<String,String> our_cert;
     private static String public_key_user;
     private static String private_key_user;
@@ -58,13 +58,14 @@ public class Client implements Runnable {
             }
             //System.out.println("public"+retString);
             public_key_user= retString.toString();
-            
+            Keys.setPubUserKey(public_key_user);
             StringBuffer retString1 = new StringBuffer();
             for (int i = 0; i < privateKeyBytes.length; ++i) {
                 retString1.append(Integer.toHexString(0x0100 + (privateKeyBytes[i] & 0x00FF)).substring(1));
             }
             //System.out.println("private"+retString1);
-            private_key_user= retString.toString();
+            private_key_user= retString1.toString();
+            Keys.setPrivUserKey(private_key_user);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchProviderException ex) {
@@ -108,10 +109,7 @@ public class Client implements Runnable {
             tr_37.start();
             
 
-            Read_40 reader_40 = new Read_40(in40, log,cert,our_cert,public_key_ca);
-
-  //          Read_40 reader_40 = new Read_40(in40, out40, log, groupList, userList, key);
-
+            Read_40 reader_40 = new Read_40(in40, log);
             Thread tr_40 = new Thread(reader_40);
             tr_40.start();
             
@@ -120,10 +118,7 @@ public class Client implements Runnable {
             tw_37.start();
             
 
-            Write_40 writer_40 = new Write_40(chat, out40, log, cert, public_key_user,commandto_40);
-
-//            Write_40 writer_40 = new Write_40(chat, out40, log, groupList, userList, key);
-
+            Write_40 writer_40 = new Write_40(out40, log);
             Thread tw_40 = new Thread(writer_40);
             tw_40.start();
             

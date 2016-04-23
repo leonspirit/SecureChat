@@ -9,7 +9,7 @@ package kij_chat_client;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
-import javafx.util.Pair;
+
 
 public class Read_37 implements Runnable {
 
@@ -66,7 +66,8 @@ public class Read_37 implements Runnable {
                         out.flush();
                     }
                     else if(vals[0].toLowerCase().equals("gc")){
-                        key.addUserCertificate(new Pair(vals[2],vals[3]));
+                        Pair<String,String> data= new Pair(vals[2],vals[3]);
+                        key.addUserCertificate(data);
                     }
                     else if(vals[0].toLowerCase().equals("success")){
                         System.out.println(input);

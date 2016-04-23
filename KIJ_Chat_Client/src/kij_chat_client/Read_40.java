@@ -15,18 +15,12 @@ public class Read_40 implements Runnable {
     String input;
     boolean keepGoing = true;
     ArrayList<String> log;
-    ArrayList<Certificate> cert;
-    Pair<String,String> our_cert;
-    private boolean init;
-    StringBuffer public_key_ca;
     
-    public Read_40(Scanner in, ArrayList<String> log, ArrayList<Certificate> cert, Pair<String,String> our_cert,StringBuffer public_key_ca) {
+    
+    public Read_40(Scanner in, ArrayList<String> log) {
         this.in = in;
         this.log = log;
-        this.cert =cert;
-        this.our_cert = our_cert;
-        this.init=false;
-        this.public_key_ca=public_key_ca;
+        
     }
 
     @Override
@@ -38,42 +32,22 @@ public class Read_40 implements Runnable {
                 if (this.in.hasNext()) {
                     //IF THE SERVER SENT US SOMETHING
                     input = this.in.nextLine();
-                    if(!init)
+                    if(input.split(" ")[0].toLowerCase().equals("c"))
                     {
-                        if(input.split(" ")[0].toLowerCase().equals("c"))
-                        {
-                            String a=input.split(" ")[1];
-                            String b= input.split(" ")[2];
-                            our_cert= new Pair(a,b);//g eruh bener atau salah;
-                            
-                        }
-                        input= this.in.nextLine();
-                        if(input.split(" ")[0].toLowerCase().equals("ps"))
-                        {
-                            public_key_ca.append(input.split(" ")[1]);
-                        }
-                        init=true;
+                        String a=input.split(" ")[1];
+                        String b= input.split(" ")[2];
+                        Pair<String,String>data = new Pair(a,b);//g eruh bener atau salah;
+                        Keys.setUserCertificate(data);
                     }
-                    else
+                    
+                    else if(input.split(" ")[0].toLowerCase().equals("ps"))
                     {
-                        if(input.split(" ")[0].toLowerCase().equals("gc"))
-                        {
-                            Pair<String,String> data= new Pair(input.split(" ")[3],input.split(" ")[4]);
-                            Certificate c= new Certificate(input.split(" ")[2]);
-                            c.addpublickey(data);
-                            cert.add(c);
-                        }
+                        Keys.setPubServerKey(input.split(" ")[1]);
                     }
                     System.out.println(input);//PRINT IT OUT
-                    if (input.split(" ")[0].toLowerCase().equals("success")) {
-                        if (input.split(" ")[1].toLowerCase().equals("logout")) {
-                            keepGoing = false;
-                        } else if (input.split(" ")[1].toLowerCase().equals("login")) {
-                            log.clear();
-                            log.add("true");
-                        }
-                    }
-
+                    keepGoing = false;
+                    log.clear();
+                    log.add("true");
                 }
 
             }
