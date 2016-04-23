@@ -112,8 +112,22 @@ public class Client implements Runnable {
 
                         if (this._userlist.contains(new Pair(vals[1], vals[2])) == true) {
                             if (this.login == false) {
-                                this._loginlist.add(new Pair(this.socket, vals[1]));
                                 this.username = vals[1];
+                                for(Pair<Socket,String> tad : _loginlist)
+                                {
+                                    out.println("U "+ tad.getSecond().toString());
+                                    out.flush();
+                                    PrintWriter outDest = null;
+                                    try {
+                                        outDest = new PrintWriter(tad.getFirst().getOutputStream());
+                                        outDest.println("U "+this.username.toString());
+                                        outDest.flush();
+                                    } catch (IOException ex) {
+                                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                }
+                                this._loginlist.add(new Pair(this.socket, vals[1]));
+                                
                                 this.login = true;
                                 System.out.println("Users count: " + this._loginlist.size());
                                 out.println("SUCCESS login");

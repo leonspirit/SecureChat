@@ -59,6 +59,7 @@ public class Read_37 implements Runnable {
                     }
                     else if(vals[0].toLowerCase().equals("u")){
                         userList.add(vals[1]);
+                        System.out.println(input);
                     }
                     else if(vals[0].toLowerCase().equals("rc")){
                         String username = vals[1];
