@@ -180,6 +180,7 @@ public class Client implements Runnable {
                             System.out.println("cg " + vals[1] + " by " + this.username + " successed.");
                             out.println("SUCCESS cg");
                             out.flush();
+                            
                         } else {
                             System.out.println("cg " + vals[1] + " by " + this.username + " failed.");
                             out.println("FAIL cg");
@@ -196,6 +197,21 @@ public class Client implements Runnable {
                         for (Group selGroup : _grouplist) {
                             if (selGroup.getName().equals(vals[1])) {
                                 exist = true;
+                                
+                                ArrayList<String>memberList = selGroup.getGroupList();
+                                for(String user : memberList){
+                                    out.println("MG " + vals[1] + " " + user);
+                                    out.flush();
+                                    
+                                    for (Pair<Socket, String> now : _loginlist) {
+                                        if(now.getSecond().equals(user)){
+                                            PrintWriter outNew = new PrintWriter(now.getFirst().getOutputStream());
+                                            outNew.println("MG " + vals[1] + " " + this.username);
+                                            outNew.flush();
+                                        }
+                                    }
+                                }
+                                
                                 selGroup.updateGroup(this.username);
                             }
                         }
