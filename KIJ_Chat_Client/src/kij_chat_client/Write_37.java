@@ -31,8 +31,20 @@ public class Write_37 implements Runnable {
         out.flush();
     }
     
-    private void try_pm(String user, String msg){
-        //next -> implement dis
+    private void try_pm(String user, String msg, String cm, String gn){
+        String messageOut;
+        if(cm.equals("pm")){
+            messageOut = "PM" + " " + "USER" +  " " + user +  " " + msg;
+            out.println(messageOut);
+        }
+        else if(cm.equals("gm")){
+            messageOut = "PM" + " " + "GROUP" + " " + gn + " " + user +  " " + msg;
+            out.println(messageOut);
+        }
+        else if(cm.equals("bm")){
+            messageOut = "PM" + " " + "BROADCAST" +  " " + user + " " + msg;
+            out.println(messageOut);
+        }
     }
 
     @Override
@@ -60,7 +72,7 @@ public class Write_37 implements Runnable {
                     for (int j = 2; j < vals.length; j++) {
                         messageOut += vals[j] + " ";
                     }
-                    try_pm(vals[1], messageOut);
+                    try_pm(vals[1], messageOut, vals[0] , null);
                 }
                 else if(vals[0].toLowerCase().equals("cg")){
                     out.println(input);
@@ -77,7 +89,7 @@ public class Write_37 implements Runnable {
                     for(Group g : groupList){
                         if(g.getName().equals(vals[1])){
                             for(String s : g.getGroupList()){
-                                try_pm(s, messageOut);
+                                try_pm(s, messageOut, vals[0] , g.getName());
                             }
                         }
                     }
@@ -89,7 +101,7 @@ public class Write_37 implements Runnable {
                     }
                     
                     for (String u : userList){
-                        try_pm(u, messageOut);
+                        try_pm(u, messageOut, vals[0] , null);
                     }
                 }
             }
