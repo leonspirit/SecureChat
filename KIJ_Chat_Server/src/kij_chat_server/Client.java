@@ -45,7 +45,7 @@ public class Client implements Runnable {
                 }
 
                 String messageOut = "";
-                for (int j = 2; j < vals.length; j++) {
+                for (int j = 3; j < vals.length; j++) {
                     messageOut += vals[j] + " ";
                 }
                 System.out.println(this.username + " to " + vals[1] + " : " + messageOut);
@@ -57,8 +57,6 @@ public class Client implements Runnable {
 
         if (exist == false) {
             System.out.println("pm to " + vals[1] + " by " + this.username + " failed.");
-                //out.println("FAIL pm");
-            //out.flush();
             return false;
         }
         return true;
@@ -77,12 +75,8 @@ public class Client implements Runnable {
                     Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                String messageOut = "";
-                for (int j = 2; j < vals.length; j++) {
-                    messageOut += vals[j] + " ";
-                }
-                System.out.println(this.username + " <" + groupname + "> to " + user + " : " + messageOut);
-                outDest.println(this.username + " <" + groupname + "> : " + messageOut);
+                System.out.println(this.username + " <" + groupname + "> to " + user + " : " + input);
+                outDest.println(this.username + " <" + groupname + "> : " + input);
                 outDest.flush();
                 exist = true;
             }
@@ -90,8 +84,6 @@ public class Client implements Runnable {
 
         if (exist == false) {
             System.out.println("gm to " + user + " by " + this.username + " failed.");
-                //out.println("FAIL pm");
-            //out.flush();
             return false;
         }
         return true;
@@ -157,8 +149,9 @@ public class Client implements Runnable {
                         }
                     }
 
-                    // param PM <userName dst> <message>
-                    if (input.split(" ")[0].toLowerCase().equals("pm") == true) {
+                    // param PM USER <userName dst> <message>
+                    if (input.split(" ")[0].toLowerCase().equals("pm") 
+                            && input.split(" ")[1].toLowerCase().equals("user")) {
 
                         boolean succ = private_msg(input);
                         if (!succ) {
@@ -219,65 +212,65 @@ public class Client implements Runnable {
                         }
                     }
 
-                    //param GM <groupName> <message>
-                    if (input.split(" ")[0].toLowerCase().equals("gm") == true) {
+                    //param PM GROUP <groupName> <userName dest> <message>
+                    if (input.split(" ")[0].toLowerCase().equals("pm")
+                            && input.split(" ")[1].toLowerCase().equals("group") ) {
 
                         boolean exist = false;
                         Group sending = null;
                         String[] vals = input.split(" ");
 
                         for (Group g : _grouplist) {
-                            if (g.getName().equals(vals[1])) {
+                            if (g.getName().equals(vals[2])) {
                                 exist = true;
                                 sending = g;
                             }
                         }
 
                         if (!exist) {
-                            System.out.println("gm " + vals[1] + " by " + this.username + " failed.");
+                            System.out.println("gm " + vals[2] + " by " + this.username + " failed.");
                             out.println("FAIL gm");
                             out.flush();
                         }                
                         else {
                             boolean found = sending.checkUser(this.username);
                             if(!found){
-                                System.out.println("gm " + vals[1] + " by " + this.username + " failed.");
+                                System.out.println("gm " + vals[2] + " by " + this.username + " failed.");
                                 out.println("FAIL gm");
                                 out.flush();
                             }
                             else{
-                                ArrayList<String> users = sending.getGroupList();
-                                for (String s : users) {
+                                
+                                String messageOut = " ";
+                                for (int j = 4; j < vals.length; j++) {
+                                    messageOut += vals[j] + " ";
+                                }
 
-                                    if (!this.username.equals(s)) {
-                                        boolean succ = group_msg(input, s, vals[1]);
-                                        if (!succ) {
-                                            out.println("FAIL gm to " + s);
-                                            out.flush();
-                                        }
-                                    }
+                                boolean succ = group_msg(messageOut, vals[3], vals[2]);
+                                if (!succ) {
+                                    out.println("FAIL gm to " + vals[3]);
+                                    out.flush();
                                 }
                             }
                             
                         }
                     }
                     
-                    // param BM <message>
-                    if (input.split(" ")[0].toLowerCase().equals("bm") == true) {
+                    // param PM BROADCAST <userName dest> <message>
+                    if (input.split(" ")[0].toLowerCase().equals("pm")
+                            && input.split("")[1].toLowerCase().equals("broadcast") ) {
+  
                         String[] vals = input.split(" ");
-
-                        for (Pair<Socket, String> cur : _loginlist) {
-                            if (!cur.getFirst().equals(socket)) {
-                                PrintWriter outDest = new PrintWriter(cur.getFirst().getOutputStream());
-                                String messageOut = "";
-                                for (int j = 1; j < vals.length; j++) {
-                                    messageOut += vals[j] + " ";
-                                }
-                                System.out.println(this.username + " to alls: " + messageOut);
-                                outDest.println(this.username + " <BROADCAST>: " + messageOut);
-                                outDest.flush();
-                            }
+                        String messageOut = " ";
+                        for (int j = 3; j < vals.length; j++) {
+                            messageOut += vals[j] + " ";
                         }
+                        
+                        boolean succ = group_msg(messageOut, vals[2], "BROADCAST");
+                        if (!succ) {
+                            out.println("FAIL broadcast to " + vals[2]);
+                            out.flush();
+                        }               
                     }
                 }
             }

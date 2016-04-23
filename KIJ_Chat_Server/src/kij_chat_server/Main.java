@@ -24,7 +24,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         try {
-            final int PORT = 6677;//SET NEW CONSTANT VARIABLE: PORT
+            final int PORT = 3237;//SET NEW CONSTANT VARIABLE: PORT
             ServerSocket server = new ServerSocket(PORT); //SET PORT NUMBER
             System.out.println("Waiting for clients...");//AT THE START PRINT THIS
 
