@@ -22,10 +22,10 @@ public class Keys {
     private static Pair<String,String> userCertificate;
     private ArrayList<Pair<String,String>> certificates;
 
-    public synchronized static String getPubUserKey() {
+    public static String getPubUserKey() {
         return pubUserKey;
     }
-    public synchronized static Pair<String, String> getUserCertificate() {
+    public static Pair<String, String> getUserCertificate() {
         return userCertificate;
     }
 
@@ -36,7 +36,7 @@ public class Keys {
         Keys.pubUserKey = pubUserKey;
     }
 
-    public synchronized static String getPrivUserKey() {
+    public static String getPrivUserKey() {
         return privUserKey;
     }
 
@@ -44,7 +44,7 @@ public class Keys {
         Keys.privUserKey = privUserKey;
     }
 
-    public synchronized static String getPubServerKey() {
+    public static String getPubServerKey() {
         return pubServerKey;
     }
 
