@@ -102,7 +102,7 @@ public class Write_37 implements Runnable {
                 }
                 else if(vals[0].toLowerCase().equals("bm")){
                     String messageOut = "";
-                    for (int j = 2; j < vals.length; j++) {
+                    for (int j = 1; j < vals.length; j++) {
                         messageOut += vals[j] + " ";
                     }
                     
