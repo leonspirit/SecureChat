@@ -77,7 +77,7 @@ public class Read_37 implements Runnable {
                             log.add("true");
                         }
                     }
-                    else if(vals[0].toLowerCase().equals("failed")){
+                    else if(vals[0].toLowerCase().equals("fail")){
                         System.out.println(input);
                         if(vals[1].toLowerCase().equals("login")){
                             log.clear();
