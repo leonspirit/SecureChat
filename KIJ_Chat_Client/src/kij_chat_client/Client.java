@@ -11,6 +11,7 @@ import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,7 +25,8 @@ import java.util.logging.Logger;
 public class Client implements Runnable {
 
     private Socket socket_37, socket_40;//MAKE SOCKET INSTANCE VARIABLE
-
+    Keys key = new Keys();
+    
     // use arraylist -> arraylist dapat diparsing as reference
     volatile ArrayList<String> log = new ArrayList<>();
     volatile ArrayList<Group> groupList = new ArrayList<Group>();
@@ -78,6 +80,7 @@ public class Client implements Runnable {
     @Override
     public void run()//INHERIT THE RUN METHOD FROM THE Runnable INTERFACE
     {
+        
         try {
             generatersa();
             Scanner chat = new Scanner(System.in);//GET THE INPUT FROM THE CMD
@@ -97,19 +100,30 @@ public class Client implements Runnable {
 //					System.out.println(in.nextLine());//PRINT IT OUT
 //			}
           
-            Read_37 reader_37 = new Read_37(in37, log, groupList, userList);
+            //minta sertifikat disini
+            
+            
+            Read_37 reader_37 = new Read_37(in37, out37, log, groupList, userList, key);
             Thread tr_37 = new Thread(reader_37);
             tr_37.start();
             
+
             Read_40 reader_40 = new Read_40(in40, log,cert,our_cert,public_key_ca);
+
+  //          Read_40 reader_40 = new Read_40(in40, out40, log, groupList, userList, key);
+
             Thread tr_40 = new Thread(reader_40);
             tr_40.start();
             
-            Write_37 writer_37 = new Write_37(chat, out37, log, groupList, userList);
+            Write_37 writer_37 = new Write_37(chat, out37, log, groupList, userList, key);
             Thread tw_37 = new Thread(writer_37);
             tw_37.start();
             
+
             Write_40 writer_40 = new Write_40(chat, out40, log, cert, public_key_user,commandto_40);
+
+//            Write_40 writer_40 = new Write_40(chat, out40, log, groupList, userList, key);
+
             Thread tw_40 = new Thread(writer_40);
             tw_40.start();
             
