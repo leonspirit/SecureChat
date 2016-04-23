@@ -43,7 +43,7 @@ public class Read_37 implements Runnable {
                     
                     String vals[] = input.split(" ");
                     if(vals[0].toLowerCase().equals("mg")){
-                        System.out.println(input);
+                        
                         boolean created = false;
                         Group now = null;
                         for (Group g : groupList){

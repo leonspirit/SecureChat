@@ -45,6 +45,7 @@ public class Write_37 implements Runnable {
             messageOut = "PM" + " " + "BROADCAST" +  " " + user + " " + msg;
             out.println(messageOut);
         }
+        out.flush();
     }
 
     @Override
