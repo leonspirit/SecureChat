@@ -1,5 +1,6 @@
 package kij_chat_client;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.security.KeyPair;
@@ -52,19 +53,21 @@ public class Client implements Runnable {
             //System.out.println(privateKeyBytes);
             byte[] publicKeyBytes = publicKey.getEncoded();
             //System.out.println(publicKeyBytes);
-            StringBuffer retString = new StringBuffer();
+            /*StringBuffer retString = new StringBuffer();
             for (int i = 0; i < publicKeyBytes.length; ++i) {
                 retString.append(Integer.toHexString(0x0100 + (publicKeyBytes[i] & 0x00FF)).substring(1));
             }
             //System.out.println("public"+retString);
-            public_key_user= retString.toString();
+            */
+            public_key_user= Base64.encode(publicKeyBytes);
             Keys.setPubUserKey(public_key_user);
-            StringBuffer retString1 = new StringBuffer();
+            /*StringBuffer retString1 = new StringBuffer();
             for (int i = 0; i < privateKeyBytes.length; ++i) {
                 retString1.append(Integer.toHexString(0x0100 + (privateKeyBytes[i] & 0x00FF)).substring(1));
             }
             //System.out.println("private"+retString1);
-            private_key_user= retString1.toString();
+            */
+            private_key_user= Base64.encode(privateKeyBytes);
             Keys.setPrivUserKey(private_key_user);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
