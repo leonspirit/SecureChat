@@ -32,19 +32,27 @@ public class Read_40 implements Runnable {
                 if (this.in.hasNext()) {
                     //IF THE SERVER SENT US SOMETHING
                     input = this.in.nextLine();
+                    
                     if(input.split(" ")[0].toLowerCase().equals("c"))
                     {
+                        System.out.println(input);
                         String a=input.split(" ")[1];
                         String b= input.split(" ")[2];
                         Pair<String,String>data = new Pair(a,b);//g eruh bener atau salah;
                         Keys.setUserCertificate(data);
                     }
-                    
-                    else if(input.split(" ")[0].toLowerCase().equals("ps"))
+                    if(this.in.hasNext())
                     {
-                        Keys.setPubServerKey(input.split(" ")[1]);
+                        input = this.in.nextLine();
+                        
+                        if(input.split(" ")[0].toLowerCase().equals("ps"))
+                        {
+                            System.out.println(input);
+                            Keys.setPubServerKey(input.split(" ")[1]);
+                        }
                     }
-                    System.out.println(input);//PRINT IT OUT
+                    
+                    //PRINT IT OUT
                     keepGoing = false;
                     log.clear();
                     log.add("true");
