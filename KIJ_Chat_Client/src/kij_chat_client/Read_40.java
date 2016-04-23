@@ -47,6 +47,7 @@ public class Read_40 implements Runnable {
                             our_cert= new Pair(a,b);//g eruh bener atau salah;
                             
                         }
+                        input= this.in.nextLine();
                         if(input.split(" ")[0].equals("PS"))
                         {
                             public_key_ca.append(input.split(" ")[1]);
