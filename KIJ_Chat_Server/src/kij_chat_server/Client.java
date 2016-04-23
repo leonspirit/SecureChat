@@ -112,8 +112,22 @@ public class Client implements Runnable {
 
                         if (this._userlist.contains(new Pair(vals[1], vals[2])) == true) {
                             if (this.login == false) {
-                                this._loginlist.add(new Pair(this.socket, vals[1]));
                                 this.username = vals[1];
+                                for(Pair<Socket,String> tad : _loginlist)
+                                {
+                                    out.println("U "+ tad.getSecond().toString());
+                                    out.flush();
+                                    PrintWriter outDest = null;
+                                    try {
+                                        outDest = new PrintWriter(tad.getFirst().getOutputStream());
+                                        outDest.println("U "+this.username.toString());
+                                        outDest.flush();
+                                    } catch (IOException ex) {
+                                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                }
+                                this._loginlist.add(new Pair(this.socket, vals[1]));
+                                
                                 this.login = true;
                                 System.out.println("Users count: " + this._loginlist.size());
                                 out.println("SUCCESS login");
@@ -276,14 +290,14 @@ public class Client implements Runnable {
                     // param PM BROADCAST <userName dest> <message>
                     if (input.split(" ")[0].toLowerCase().equals("pm")
                             && input.split("")[1].toLowerCase().equals("broadcast") ) {
-  
+                        System.out.println(input);
                         String[] vals = input.split(" ");
                         String messageOut = " ";
                         for (int j = 3; j < vals.length; j++) {
                             messageOut += vals[j] + " ";
                         }
                         
-                        boolean succ = group_msg(messageOut, vals[2], "BROADCAST");
+                        boolean succ = group_msg(input, vals[2], "BROADCAST");
                         if (!succ) {
                             out.println("FAIL broadcast to " + vals[2]);
                             out.flush();
