@@ -24,7 +24,8 @@ public class Client implements Runnable {
     private ArrayList<Pair<Socket, String>> _loginlist;
     private ArrayList<Pair<String, String>> _userlist;
     private static List<Group> _grouplist = new ArrayList<Group>();
-
+    private ArrayList<Pair<Socket,String>> _publickeyuserlist;
+    
     public Client(Socket s, ArrayList<Pair<Socket, String>> _loginlist, ArrayList<Pair<String, String>> _userlist) {
         socket = s;//INSTANTIATE THE SOCKET)
         this._loginlist = _loginlist;
@@ -305,7 +306,8 @@ public class Client implements Runnable {
                     }
                     
                     if(input.split(" ")[0].toLowerCase().equals("pu")){
-                        
+                        String[] vals= input.split(" ");
+                        _publickeyuserlist.add(new Pair(this.socket,vals[1]));
                     }
                 }
             }
