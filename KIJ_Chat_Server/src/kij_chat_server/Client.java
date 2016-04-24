@@ -24,12 +24,13 @@ public class Client implements Runnable {
     private ArrayList<Pair<Socket, String>> _loginlist;
     private ArrayList<Pair<String, String>> _userlist;
     private static List<Group> _grouplist = new ArrayList<Group>();
-    private ArrayList<Pair<Socket,String>> _publickeyuserlist;
+    private ArrayList<Pair<Socket, String>> _publickeyuserlist;
     
-    public Client(Socket s, ArrayList<Pair<Socket, String>> _loginlist, ArrayList<Pair<String, String>> _userlist) {
+    public Client(Socket s, ArrayList<Pair<Socket, String>> _loginlist, ArrayList<Pair<String, String>> _userlist,ArrayList<Pair<Socket, String>> _publicuserkeylist) {
         socket = s;//INSTANTIATE THE SOCKET)
         this._loginlist = _loginlist;
         this._userlist = _userlist;
+        this._publickeyuserlist=_publicuserkeylist;
     }
 
     private boolean private_msg(String input) {
@@ -108,6 +109,10 @@ public class Client implements Runnable {
                     //System.out.println(input);
                     // param LOGIN <userName> <pass>
                     System.out.println(input);
+                    if(input.split(" ")[0].toLowerCase().equals("pu")){
+                        String[] vals= input.split(" ");
+                        this._publickeyuserlist.add(new Pair(this.socket, vals[1]));
+                    }
                     if (input.split(" ")[0].toLowerCase().equals("login") == true) {
                         String[] vals = input.split(" ");
 
@@ -305,10 +310,7 @@ public class Client implements Runnable {
                         }               
                     }
                     
-                    if(input.split(" ")[0].toLowerCase().equals("pu")){
-                        String[] vals= input.split(" ");
-                        _publickeyuserlist.add(new Pair(this.socket,vals[1]));
-                    }
+                    
                 }
             }
         } catch (Exception e) {

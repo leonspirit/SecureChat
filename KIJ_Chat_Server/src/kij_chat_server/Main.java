@@ -19,6 +19,7 @@ public class Main {
     public static volatile ArrayList<Pair<Socket, String>> _loginlist = new ArrayList<>();
     public static final User user = new User();
     public static final ArrayList<Pair<String, String>> _userlist = user.getUserList();
+    public static volatile ArrayList<Pair<Socket, String>> _publicuserkeylist=new ArrayList<>();
     //public static final Group group = new Group();
     //public static final ArrayList<Pair<String,String>> _grouplist = group.getGroupList();
 
@@ -34,7 +35,7 @@ public class Main {
 
                 System.out.println("Client connected from " + s.getLocalAddress().getHostName());	//	TELL THEM THAT THE CLIENT CONNECTED
 
-                Client chat = new Client(s, _loginlist, _userlist);//CREATE A NEW CLIENT OBJECT
+                Client chat = new Client(s, _loginlist, _userlist,_publicuserkeylist);//CREATE A NEW CLIENT OBJECT
                 Thread t = new Thread(chat);//MAKE A NEW THREAD
                 t.start();//START THE THREAD
             }
