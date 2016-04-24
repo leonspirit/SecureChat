@@ -289,15 +289,15 @@ public class Client implements Runnable {
                     
                     // param PM BROADCAST <userName dest> <message>
                     if (input.split(" ")[0].toLowerCase().equals("pm")
-                            && input.split("")[1].toLowerCase().equals("broadcast") ) {
-                        System.out.println(input);
+                            && input.split(" ")[1].toLowerCase().equals("broadcast") ) {
+                        //System.out.println(input);
                         String[] vals = input.split(" ");
                         String messageOut = " ";
                         for (int j = 3; j < vals.length; j++) {
                             messageOut += vals[j] + " ";
                         }
                         
-                        boolean succ = group_msg(input, vals[2], "BROADCAST");
+                        boolean succ = group_msg(messageOut, vals[2], "BROADCAST");
                         if (!succ) {
                             out.println("FAIL broadcast to " + vals[2]);
                             out.flush();
