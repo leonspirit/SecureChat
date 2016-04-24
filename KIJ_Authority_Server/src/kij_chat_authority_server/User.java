@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kij_chat_server;
+package kij_chat_authority_server;
 
 import java.util.ArrayList;
 

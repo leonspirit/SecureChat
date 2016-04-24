@@ -32,24 +32,30 @@ public class Read_40 implements Runnable {
                 if (this.in.hasNext()) {
                     //IF THE SERVER SENT US SOMETHING
                     input = this.in.nextLine();
-                    
-                    if(input.split(" ")[0].toLowerCase().equals("c"))
+                    if(input.split(" ")[0].toLowerCase().equals("ps"))
                     {
-                        System.out.println(input);
-                        String a=input.split(" ")[1];
-                        String b= input.split(" ")[2];
-                        Pair<String,String>data = new Pair(a,b);//g eruh bener atau salah;
-                        Keys.setUserCertificate(data);
+                        //System.out.println(input);
+                        Keys.setPubServerKey(input.split(" ")[1]);
                     }
+                    
                     if(this.in.hasNext())
                     {
-                        input = this.in.nextLine();
                         
-                        if(input.split(" ")[0].toLowerCase().equals("ps"))
+                        input = this.in.nextLine();
+                        if(input.split(" ")[0].toLowerCase().equals("c"))
                         {
-                            System.out.println(input);
-                            Keys.setPubServerKey(input.split(" ")[1]);
+                            //System.out.println(input);
+                            String a=input.split(" ")[1];
+                            //System.out.println(a);
+                            String b= input.split(" ")[2];
+                            //System.out.println(b);
+                            String temp_data=EncryptandDecrypt.decrypt1(b, Keys.getPubServerKey());
+                            //System.out.println(temp_data);
+                            Pair<String,String>data = new Pair(a,b);//g eruh bener atau salah;
+                            Keys.setUserCertificate(data);
+                            //System.out.println("certif"+Keys.getUserCertificate().getFirst().toString()+" "+Keys.getUserCertificate().getSecond().toString());
                         }
+                        
                     }
                     
                     //PRINT IT OUT

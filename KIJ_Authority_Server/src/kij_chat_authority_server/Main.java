@@ -1,4 +1,4 @@
-package kij_chat_server;
+package kij_chat_authority_server;
 
 import java.io.IOException;
 import java.net.ServerSocket;

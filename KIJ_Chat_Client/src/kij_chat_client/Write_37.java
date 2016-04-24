@@ -58,8 +58,19 @@ public class Write_37 implements Runnable {
                 
                 String vals[] = input.split(" ");
                 if(vals[0].toLowerCase().equals("login")){
-
-                    out.println(input);
+                    StringBuilder input_login=new StringBuilder();
+                    for(int x=0;x<vals.length;x++)
+                    {
+                        if(x<2)
+                        {
+                            input_login.append(vals[x]+" ");
+                        }
+                        else
+                        {
+                            input_login.append(Hashing.getshahasing(vals[x]));
+                        }
+                    }
+                    out.println(input_login);
                     out.flush();
                     log.clear();
                     log.add(vals[1]);

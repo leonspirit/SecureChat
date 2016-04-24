@@ -1,5 +1,6 @@
-package kij_chat_server;
+package kij_chat_authority_server;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -27,8 +28,8 @@ public class Client implements Runnable {
     private Socket socket;//SOCKET INSTANCE VARIABLE
     private String username;
     private boolean login = false;
-    private static String public_key;
-    private static String private_key;
+    private static String public_key_user;
+    private static String private_key_user;
     private ArrayList<Pair<Socket, String>> _loginlist;
     private ArrayList<Pair<String, String>> _userlist;
     private static List<Group> _grouplist = new ArrayList<Group>();
@@ -52,20 +53,22 @@ public class Client implements Runnable {
             //System.out.println(privateKeyBytes);
             byte[] publicKeyBytes = publicKey.getEncoded();
             //System.out.println(publicKeyBytes);
-            StringBuffer retString = new StringBuffer();
+            /*StringBuffer retString = new StringBuffer();
             for (int i = 0; i < publicKeyBytes.length; ++i) {
                 retString.append(Integer.toHexString(0x0100 + (publicKeyBytes[i] & 0x00FF)).substring(1));
             }
             //System.out.println("public"+retString);
-            public_key= retString.toString();
-            //Keys.setPubUserKey(public_key_user);
-            StringBuffer retString1 = new StringBuffer();
+            */
+            public_key_user= Base64.encode(publicKeyBytes);
+            Keys.setPubUserKey(public_key_user);
+            /*StringBuffer retString1 = new StringBuffer();
             for (int i = 0; i < privateKeyBytes.length; ++i) {
                 retString1.append(Integer.toHexString(0x0100 + (privateKeyBytes[i] & 0x00FF)).substring(1));
             }
             //System.out.println("private"+retString1);
-            private_key= retString1.toString();
-            //Keys.setPrivUserKey(private_key_user);
+            */
+            private_key_user= Base64.encode(privateKeyBytes);
+            Keys.setPrivUserKey(private_key_user);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchProviderException ex) {
@@ -93,11 +96,13 @@ public class Client implements Runnable {
                    //terima public key
                    if (input.split(" ")[0].toLowerCase().equals("pu") == true) {
                        String PUkey = input.split(" ")[1];
-                       String DigSig = PUkey;//nanti di hash teros di enkrispsi, sementara gini dulu
+                       String tempDigSig = Hashing.getshahasing(PUkey);//nanti di hash teros di enkrispsi, sementara gini dulu
+                       //System.out.println(tempDigSig);
+                       String DigSig=EncryptandDecrypt.encrypt1(tempDigSig, Keys.getPrivUserKey());
                        Pair <String,String> Certificate = new Pair(PUkey, DigSig);
-                       out.println("C " + Certificate.getFirst()+" "+Certificate.getSecond());
+                       out.println("PS "+public_key_user);
                        out.flush();
-                       out.println("PS "+public_key);
+                       out.println("C " + Certificate.getFirst()+" "+Certificate.getSecond());
                        out.flush();
                        
                    }
