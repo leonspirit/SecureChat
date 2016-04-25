@@ -47,7 +47,23 @@ public class Write_37 implements Runnable {
         }
         out.flush();
     }
-
+    private String ubah_to_chipertext(String[] vals)
+    {
+        StringBuilder input_login=new StringBuilder();
+        for(int x=0;x<vals.length;x++)
+        {
+            if(x<2)
+            {
+                input_login.append(vals[x]+" ");
+            }
+            else
+            {
+                input_login.append(Hashing.getshahasing(vals[x]));
+            }
+        }
+        String data_yang_dikirim= EncryptandDecrypt.encrypt1(input_login.toString(), Keys.getPrivUserKey());
+        return data_yang_dikirim;
+    }
     @Override
     public void run()//INHERIT THE RUN METHOD FROM THE Runnable INTERFACE
     {
@@ -58,25 +74,14 @@ public class Write_37 implements Runnable {
                 
                 String vals[] = input.split(" ");
                 if(vals[0].toLowerCase().equals("login")){
-                    StringBuilder input_login=new StringBuilder();
-                    for(int x=0;x<vals.length;x++)
-                    {
-                        if(x<2)
-                        {
-                            input_login.append(vals[x]+" ");
-                        }
-                        else
-                        {
-                            input_login.append(Hashing.getshahasing(vals[x]));
-                        }
-                    }
-                    out.println(input_login);
+                    
+                    out.println(ubah_to_chipertext(vals));
                     out.flush();
                     log.clear();
                     log.add(vals[1]);
                 }
                 else if(vals[0].toLowerCase().equals("logout")){
-                    out.println(input);
+                    out.println(ubah_to_chipertext(vals));
                     out.flush();
                     if(log.contains("true")){
                         keepGoing = false;
@@ -90,11 +95,11 @@ public class Write_37 implements Runnable {
                     try_pm(vals[1], messageOut, vals[0] , null);
                 }
                 else if(vals[0].toLowerCase().equals("cg")){
-                    out.println(input);
+                    out.println(ubah_to_chipertext(vals));
                     out.flush();
                 }
                 else if(vals[0].toLowerCase().equals("jg")){
-                    out.println(input);
+                    out.println(ubah_to_chipertext(vals));
                     out.flush();
                 }
                 else if(vals[0].toLowerCase().equals("gm")){

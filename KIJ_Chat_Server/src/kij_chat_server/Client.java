@@ -102,17 +102,49 @@ public class Client implements Runnable {
             while (true)//WHILE THE PROGRAM IS RUNNING
             {
                 if (in.hasNext()) {
-                    String input = in.nextLine();//IF THERE IS INPUT THEN MAKE A NEW VARIABLE input AND READ WHAT THEY TYPED
+                    String input1 = in.nextLine();//IF THERE IS INPUT THEN MAKE A NEW VARIABLE input AND READ WHAT THEY TYPED
 //					System.out.println("Client Said: " + input);//PRINT IT OUT TO THE SCREEN
 //					out.println("You Said: " + input);//RESEND IT TO THE CLIENT
 //					out.flush();//FLUSH THE STREAM
                     //System.out.println(input);
                     // param LOGIN <userName> <pass>
-                    System.out.println(input);
-                    if(input.split(" ")[0].toLowerCase().equals("pu")){
-                        String[] vals= input.split(" ");
+                    System.out.println(input1);
+                    if(input1.split(" ")[0].toLowerCase().equals("pu")){
+                        String[] vals= input1.split(" ");
                         this._publickeyuserlist.add(new Pair(this.socket, vals[1]));
                     }
+                    String input=null;
+                    if(input1.contains("=="))
+                    {
+                        String[] temp=input1.split("==");
+                        String[] temp1=temp[0].split(" ");
+                        if(temp.length==1&& temp1.length==1)
+                        {
+                            String tmp1=new String();
+                            for(Pair<Socket,String> cur : _publickeyuserlist)
+                            {
+                                if(cur.getFirst().equals(this.socket))
+                                {
+                                    tmp1=cur.getSecond().toString();
+                                }
+                            }
+                            StringBuilder a=new StringBuilder();
+                            a.append(temp[0]);
+                            a.append("==");
+                            //System.out.println("kunci"+tmp1);
+                            //System.out.println(a);
+                            input=EncryptandDecrypt.decrypt1(a.toString(),tmp1);
+                            //System.out.println(EncryptandDecrypt.decrypt1(a.toString(),tmp1));
+                            //System.out.println("balik"+input);
+                        }
+                        else
+                        {
+                            input=input1;
+                            
+                        }
+                            
+                    }
+                    System.out.println(input);
                     if (input.split(" ")[0].toLowerCase().equals("login") == true) {
                         String[] vals = input.split(" ");
 
