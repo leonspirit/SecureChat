@@ -30,7 +30,17 @@ public class Read_37 implements Runnable {
         this.userList = userList;
         this.key = key;
     }
-
+    private String ubah_to_chipertextrc(String[] vals)
+    {
+        StringBuilder input_login=new StringBuilder();
+        for(int x=0;x<vals.length;x++)
+        {
+            input_login.append(vals[x]+" ");   
+        }
+        input_login.append(log.get(0));
+        String data_yang_dikirim= EncryptandDecrypt.getEncryptedDatawithPrivateKey(input_login.toString(), Keys.getPrivUserKey());
+        return data_yang_dikirim;
+    }
     @Override
     public void run()//INHERIT THE RUN METHOD FROM THE Runnable INTERFACE
     {
@@ -65,6 +75,10 @@ public class Read_37 implements Runnable {
                     else if(vals[0].toLowerCase().equals("u")){
                         userList.add(vals[1]);
                         System.out.println(input);
+                        String kirim_rc="RC "+vals[1]+" ";
+                        System.out.println(kirim_rc);
+                        out.println(ubah_to_chipertextrc(kirim_rc.split(" ")));
+                        out.flush();
                     }
                     else if(vals[0].toLowerCase().equals("rc")){
                         String username = vals[1];

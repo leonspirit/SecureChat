@@ -122,7 +122,7 @@ public class EncryptandDecrypt {
     private static String decrypt1(String message,String publicKey)
     {
         String hasil=null;
-        System.out.println("pesan"+ message+ " kunci "+publicKey);
+        //System.out.println("pesan"+ message+ " kunci "+publicKey);
         try {
             byte[] publicKeyBytes=Base64.decode(publicKey);
             KeyFactory kf = KeyFactory.getInstance("RSA");

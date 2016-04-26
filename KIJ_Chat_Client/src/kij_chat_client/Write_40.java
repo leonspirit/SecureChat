@@ -37,7 +37,7 @@ public class Write_40 implements Runnable {
                 String input = null ;	//SET NEW VARIABLE input TO THE VALUE OF WHAT THE CLIENT TYPED IN
                 input="PU "+this.public_key_user;
                 keepGoing=false;
-                System.out.println(input);
+                //System.out.println(input);
                 out.println(input);//SEND IT TO THE SERVER
                 out.flush();//FLUSH THE STREAM
                 log.clear();log.add("true");
