@@ -71,7 +71,17 @@ public class Read_37 implements Runnable {
                         
                         System.out.println(vals[1] +" " + EncryptandDecrypt.getDecryptedDatawithPrivateKey(vals[2], key.getPrivUserKey()));
                     }
+                    else if (vals[0].toLowerCase().equals("gm"))
+                    {
+                    //    System.out.println(input);
+                        System.out.println(vals[1]+" "+vals[2]+" "+vals[3] +" "+ EncryptandDecrypt.getDecryptedDatawithPrivateKey(vals[4], key.getPrivUserKey()));
+                    }
                     
+                    else if (vals[0].toLowerCase().equals("bm"))
+                    {
+                    //    System.out.println(input);
+                        System.out.println(vals[1]+" "+vals[2]+" "+vals[3] +" "+ EncryptandDecrypt.getDecryptedDatawithPrivateKey(vals[4], key.getPrivUserKey()));
+                    }
                     else if(vals[0].toLowerCase().equals("u")){
                         userList.add(vals[1]);
                         System.out.println(input);

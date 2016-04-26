@@ -78,7 +78,7 @@ public class Client implements Runnable {
                 }
 
                 System.out.println(this.username + " <" + groupname + "> to " + user + " : " + input);
-                outDest.println(this.username + " <" + groupname + "> : " + input);
+                outDest.println("gm "+this.username + " <" + groupname + "> :" + input);
                 outDest.flush();
                 exist = true;
             }

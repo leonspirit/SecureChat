@@ -141,7 +141,8 @@ public class Write_37 implements Runnable {
                     }
                     String PUlawan="";
                     for(Group g : groupList){
-                        if(g.getName().equals(vals[1])){
+                        if(g.getName().equals(vals[1]))
+                        {
                             for(String s : g.getGroupList())
                             {
                                  for (Pair<String,String> k : key.getCertificates())
@@ -150,20 +151,32 @@ public class Write_37 implements Runnable {
                                     {
                                         PUlawan=k.getSecond();
                                         try_pm(s, EncryptandDecrypt.getEncryptedDatawithPublicKey(messageOut, PUlawan), vals[0] , g.getName());
+                                        break;
                                     }
                                  }
                             }
+                            break;
                         }
                     }
                 }
-                else if(vals[0].toLowerCase().equals("bm")){
+                else if(vals[0].toLowerCase().equals("bm"))
+                {
                     String messageOut = "";
                     for (int j = 1; j < vals.length; j++) {
                         messageOut += vals[j] + " ";
                     }
-                    
+                    String PUlawan="";
                     for (String u : userList){
-                        try_pm(u, messageOut, vals[0] , null);
+                        for (Pair<String,String> k : key.getCertificates())
+                        {
+                            if(k.getFirst().toLowerCase().equals(u))
+                            {
+                                PUlawan=k.getSecond();
+                                try_pm(u, EncryptandDecrypt.getEncryptedDatawithPublicKey(messageOut, PUlawan), vals[0] , null);
+                                break;
+                            }
+                        }
+                  
                     }
                 }
             }
