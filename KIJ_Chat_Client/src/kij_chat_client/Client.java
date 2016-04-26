@@ -86,6 +86,7 @@ public class Client implements Runnable {
     {
         
         try {
+            //generate private & public key for RSA
             generatersa();
             Scanner chat = new Scanner(System.in);//GET THE INPUT FROM THE CMD
             
@@ -94,18 +95,7 @@ public class Client implements Runnable {
 
             Scanner in40 = new Scanner(socket_40.getInputStream());
             PrintWriter out40 = new PrintWriter(socket_40.getOutputStream());
-//			while (true)//WHILE THE PROGRAM IS RUNNING
-//			{						
-//				String input = chat.nextLine();	//SET NEW VARIABLE input TO THE VALUE OF WHAT THE CLIENT TYPED IN
-//				out.println(input);//SEND IT TO THE SERVER
-//				out.flush();//FLUSH THE STREAM
-//				
-//				if(in.hasNext())//IF THE SERVER SENT US SOMETHING
-//					System.out.println(in.nextLine());//PRINT IT OUT
-//			}
-          
-            //minta sertifikat disini
-            
+//		            
             
             Read_37 reader_37 = new Read_37(in37, out37, log, groupList, userList, key);
             Thread tr_37 = new Thread(reader_37);

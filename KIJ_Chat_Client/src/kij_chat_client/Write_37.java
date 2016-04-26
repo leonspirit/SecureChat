@@ -86,6 +86,8 @@ public class Write_37 implements Runnable {
                 String input = chat.nextLine();	//SET NEW VARIABLE input TO THE VALUE OF WHAT THE CLIENT TYPED IN
                 //System.out.println(input);
                 String vals[] = input.split(" ");
+                
+                //param LOGIN <userName> <password>
                 if(vals[0].toLowerCase().equals("login")){
                     
                     out.println(ubah_to_chipertext(vals));
@@ -93,11 +95,13 @@ public class Write_37 implements Runnable {
                     log.clear();
                     log.add(vals[1]);
                 }
+                //minta sertifikat user lain (harusnya gapernah)
                 else if(vals[0].toLowerCase().equals("rc"))
                 {
                     out.println(ubah_to_chipertextrc(vals));
                     out.flush();
                 }
+                //param LOGOUT
                 else if(vals[0].toLowerCase().equals("logout")){
                     out.println(ubah_to_chipertext(vals));
                     out.flush();
@@ -105,6 +109,7 @@ public class Write_37 implements Runnable {
                         keepGoing = false;
                     }
                 }
+                //param PM <userName> <message>
                 else if(vals[0].toLowerCase().equals("pm")){
                     String messageOut = "";
                     String PUlawan;
@@ -116,8 +121,7 @@ public class Write_37 implements Runnable {
                     {
                         if(k.getFirst().toLowerCase().equals(vals[1]))
                         {
-                           // System.out.println("ini");
-                           // cek=true;
+                            
                             PUlawan=k.getSecond();
                             try_pm(vals[1], EncryptandDecrypt.getEncryptedDatawithPublicKey(messageOut, PUlawan), vals[0] , null);
                            // System.out.println("cek:"+cek);
@@ -126,14 +130,17 @@ public class Write_37 implements Runnable {
                     }
                          
                 }
+                //param CG <groupName>
                 else if(vals[0].toLowerCase().equals("cg")){
                     out.println(ubah_to_chipertext(vals));
                     out.flush();
                 }
+                //param JG <groupName>
                 else if(vals[0].toLowerCase().equals("jg")){
                     out.println(ubah_to_chipertext(vals));
                     out.flush();
                 }
+                //param GM <groupName> <message>
                 else if(vals[0].toLowerCase().equals("gm")){
                     String messageOut = "";
                     for (int j = 2; j < vals.length; j++) {
@@ -159,6 +166,7 @@ public class Write_37 implements Runnable {
                         }
                     }
                 }
+                //param BM <message>
                 else if(vals[0].toLowerCase().equals("bm"))
                 {
                     String messageOut = "";

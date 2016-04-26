@@ -32,6 +32,7 @@ public class Read_40 implements Runnable {
                 if (this.in.hasNext()) {
                     //IF THE SERVER SENT US SOMETHING
                     input = this.in.nextLine();
+                    //public key server certificate
                     if(input.split(" ")[0].toLowerCase().equals("ps"))
                     {
                         //System.out.println(input);
@@ -40,7 +41,7 @@ public class Read_40 implements Runnable {
                     
                     if(this.in.hasNext())
                     {
-                        
+                        //certificate user yang baru dibuat
                         input = this.in.nextLine();
                         if(input.split(" ")[0].toLowerCase().equals("c"))
                         {
@@ -54,8 +55,7 @@ public class Read_40 implements Runnable {
                             Pair<String,String>data = new Pair(a,b);//g eruh bener atau salah;
                             Keys.setUserCertificate(data);
                             //System.out.println("certif"+Keys.getUserCertificate().getFirst().toString()+" "+Keys.getUserCertificate().getSecond().toString());
-                        }
-                        
+                        }                        
                     }
                     
                     //PRINT IT OUT

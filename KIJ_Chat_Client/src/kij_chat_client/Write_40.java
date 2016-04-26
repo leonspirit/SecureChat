@@ -33,8 +33,8 @@ public class Write_40 implements Runnable {
         try {
             while (keepGoing)//WHILE THE PROGRAM IS RUNNING
             {
-                
-                String input = null ;	//SET NEW VARIABLE input TO THE VALUE OF WHAT THE CLIENT TYPED IN
+                //kirim public key user
+                String input = null ;	
                 input="PU "+this.public_key_user;
                 keepGoing=false;
                 //System.out.println(input);

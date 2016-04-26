@@ -102,24 +102,22 @@ public class Client implements Runnable {
             while (true)//WHILE THE PROGRAM IS RUNNING
             {
                 if (in.hasNext()) {
-                    String input1 = in.nextLine();//IF THERE IS INPUT THEN MAKE A NEW VARIABLE input AND READ WHAT THEY TYPED
-//					System.out.println("Client Said: " + input);//PRINT IT OUT TO THE SCREEN
-//					out.println("You Said: " + input);//RESEND IT TO THE CLIENT
-//					out.flush();//FLUSH THE STREAM
-                    //System.out.println(input);
-                    // param LOGIN <userName> <pass>
-                    //System.out.println(input1);
+                    String input1 = in.nextLine();
+                    
+                    //New user give information about their public key
                     if(input1.split(" ")[0].toLowerCase().equals("pu")){
                         String[] vals= input1.split(" ");
                         this._publickeyuserlist.add(new Pair(this.socket, vals[1]));
                     }
                     String input=null;
+                    
+                    //Enrypted data -> decrypt data with user's public key first
                     if(input1.contains("=="))
                     {
                         String[] temp1=input1.split(" ");
                         if(temp1.length==1)
                         {
-                            String tmp1=new String();
+                            String tmp1=null;
                             for(Pair<Socket,String> cur : _publickeyuserlist)
                             {
                                 if(cur.getFirst().equals(this.socket))
@@ -130,30 +128,30 @@ public class Client implements Runnable {
                             StringBuilder a=new StringBuilder();
                             a.append(input1);
                             
-                            //System.out.println("kunci"+tmp1);
-                            //System.out.println(a);
-                            input=EncryptandDecrypt.getDecryptedDatawithPublicKey(a.toString(),tmp1);
-                            //System.out.println(EncryptandDecrypt.decrypt1(a.toString(),tmp1));
-                            //System.out.println("balik"+input);
+                            input=EncryptandDecrypt.getDecryptedDatawithPublicKey(a.toString(),tmp1);                            
                         }
                         else
                         {
-                            input=input1;
-                            
+                            input=input1;                            
                         }
                             
                     }
                     System.out.println(input);
+                    
+                    //param LOGIN <userName> <password>
                     if (input.split(" ")[0].toLowerCase().equals("login") == true) {
                         String[] vals = input.split(" ");
 
                         if (this._userlist.contains(new Pair(vals[1], vals[2])) == true) {
                             if (this.login == false) {
                                 this.username = vals[1];
+                                //kirim semua informasi tentang user yang telah online -> tidak dienkrip
                                 for(Pair<Socket,String> tad : _loginlist)
                                 {
                                     out.println("U "+ tad.getSecond().toString());
                                     out.flush();
+                                    
+                                    //kirim informasi bahwa ada user baru online
                                     PrintWriter outDest = null;
                                     try {
                                         outDest = new PrintWriter(tad.getFirst().getOutputStream());
@@ -223,7 +221,8 @@ public class Client implements Runnable {
                                 exist = true;
                             }
                         }
-
+                        
+                        //grup belum ada -> buat grup baru
                         if (exist == false) {
                             Group newGroup = new Group(vals[1]);
                             newGroup.updateGroup(this.username);
@@ -248,9 +247,11 @@ public class Client implements Runnable {
                         boolean exist = false;
 
                         for (Group selGroup : _grouplist) {
+                            //grup sudah terbentuk
                             if (selGroup.getName().equals(vals[1])) {
                                 exist = true;
                                 
+                                //kirim informasi mengenai anggota grup baru -> tidak dienkrip
                                 ArrayList<String>memberList = selGroup.getGroupList();
                                 for(String user : memberList){
                                     out.println("MG " + vals[1] + " " + user);
@@ -327,7 +328,7 @@ public class Client implements Runnable {
                     // param PM BROADCAST <userName dest> <message>
                     if (input.split(" ")[0].toLowerCase().equals("pm")
                             && input.split(" ")[1].toLowerCase().equals("broadcast") ) {
-                        //System.out.println(input);
+                        
                         String[] vals = input.split(" ");
                         String messageOut = " ";
                         for (int j = 3; j < vals.length; j++) {
@@ -340,6 +341,8 @@ public class Client implements Runnable {
                             out.flush();
                         }               
                     }
+                    
+                    //user lain meminta certificate 
                     if(input.split(" ")[0].toLowerCase().equals("rc"))
                     {
                         boolean cek=false;
@@ -371,6 +374,8 @@ public class Client implements Runnable {
                         }
                         
                     }
+                    
+                    //terima certificate user lain
                     if(input.split(" ")[0].toLowerCase().equals("gc"))
                     {
                         boolean cek=false;

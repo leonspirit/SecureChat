@@ -50,8 +50,9 @@ public class Read_37 implements Runnable {
                 if (this.in.hasNext()) {
                     //IF THE SERVER SENT US SOMETHING
                     input = this.in.nextLine();
-                    //System.out.println(input);
+                    
                     String vals[] = input.split(" ");
+                    //member grup baru -> tidak dienkrip
                     if(vals[0].toLowerCase().equals("mg")){
                         
                         boolean created = false;
@@ -67,21 +68,22 @@ public class Read_37 implements Runnable {
                         now.updateGroup(vals[2]);
                         groupList.add(now);
                     }
+                    //message dari user lain -> dekrip dengan private key
                     else if(vals[0].toLowerCase().equals("pm")){
                         
                         System.out.println(vals[1] +" " + EncryptandDecrypt.getDecryptedDatawithPrivateKey(vals[2], key.getPrivUserKey()));
                     }
+                    //message dari grup -> dekrip dengan private key
                     else if (vals[0].toLowerCase().equals("gm"))
                     {
-                    //    System.out.println(input);
                         System.out.println(vals[1]+" "+vals[2]+" "+vals[3] +" "+ EncryptandDecrypt.getDecryptedDatawithPrivateKey(vals[4], key.getPrivUserKey()));
                     }
-                    
+                    //broadcast dari user lain -> dekrip dengan private key
                     else if (vals[0].toLowerCase().equals("bm"))
                     {
-                    //    System.out.println(input);
                         System.out.println(vals[1]+" "+vals[2]+" "+vals[3] +" "+ EncryptandDecrypt.getDecryptedDatawithPrivateKey(vals[4], key.getPrivUserKey()));
                     }
+                    //user online baru -> langsung minta certificate
                     else if(vals[0].toLowerCase().equals("u")){
                         userList.add(vals[1]);
                         System.out.println(input);
@@ -90,18 +92,19 @@ public class Read_37 implements Runnable {
                         out.println(ubah_to_chipertextrc(kirim_rc.split(" ")));
                         out.flush();
                     }
+                    //user lain minta certificate
                     else if(vals[0].toLowerCase().equals("rc")){
                         String username = vals[1];
                         out.println("GC " + vals[2] + " " + log.get(0) + " " + Keys.getUserCertificate().getFirst()+" "+Keys.getUserCertificate().getSecond());
                         out.flush();
                     }
+                    //terima certificate user lain
                     else if(vals[0].toLowerCase().equals("gc")){
                         String hashingpub=Hashing.getshahasing(vals[3]);
-                        //System.out.println(vals[4]);
-                        //System.out.println(Keys.getPubServerKey());
+                                                
                         String balik=EncryptandDecrypt.getDecryptedDatawithPublicKey(vals[4], Keys.getPubServerKey());
-                        //System.out.println("balik nama" + balik);
-                        //System.out.println("hasing"+hashingpub);
+                        
+                        //cek kevalidan certificate
                         if(hashingpub.equals(balik))
                         {
                             Pair<String,String> data= new Pair(vals[2],vals[3]);

@@ -19,10 +19,9 @@ Server Reply : SUCCESS cg / FAIL cg
 JG [groupname]  
 Server Reply : success jg / FAIL jg
 
+### Group Message
+GM [groupname] [message]
+
 ### Logout
 Logout  
 Server Reply : SUCCESS logout / FAIL logout
-
-
-## Note :
-Group feature still broken
