@@ -28,7 +28,7 @@ import javax.crypto.NoSuchPaddingException;
  * @author freddy
  */
 public class EncryptandDecrypt {
-    public static List<String> splitEqually(String text, int size) {
+    private static List<String> splitEqually(String text, int size) {
     // Give the list the right capacity to start with. You could use an array
     // instead if you wanted.
     List<String> ret = new ArrayList<String>((text.length() + size - 1) / size);
@@ -38,7 +38,7 @@ public class EncryptandDecrypt {
     }
     return ret;
     }
-    public static String encrypt(String message,String publicKey)
+    private static String encrypt(String message,String publicKey)
     {
         String hasil=null;
         try {
@@ -65,7 +65,7 @@ public class EncryptandDecrypt {
         }
         return hasil;
     }
-    public static String encrypt1(String message,String privateKey)
+    private static String encrypt1(String message,String privateKey)
     {
         String hasil=null;
         try {
@@ -92,7 +92,7 @@ public class EncryptandDecrypt {
         }
         return hasil;
     }
-    public static String decrypt(String message,String privateKey)
+    private static String decrypt(String message,String privateKey)
     {
         String hasil=null;
         
@@ -119,10 +119,10 @@ public class EncryptandDecrypt {
         }
         return hasil;
     }
-    public static String decrypt1(String message,String publicKey)
+    private static String decrypt1(String message,String publicKey)
     {
         String hasil=null;
-        
+        System.out.println("pesan"+ message+ " kunci "+publicKey);
         try {
             byte[] publicKeyBytes=Base64.decode(publicKey);
             KeyFactory kf = KeyFactory.getInstance("RSA");

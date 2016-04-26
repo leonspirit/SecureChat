@@ -40,48 +40,14 @@ public class Client implements Runnable {
         this._userlist = _userlist;
     }
 
-   public static void generatersa()
-    {
-        try {
-            KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-            SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-            keyGen.initialize(512,random);
-            KeyPair pair = keyGen.generateKeyPair();
-            PrivateKey privateKey = pair.getPrivate();
-            PublicKey publicKey = pair.getPublic();
-            byte[] privateKeyBytes = privateKey.getEncoded();
-            //System.out.println(privateKeyBytes);
-            byte[] publicKeyBytes = publicKey.getEncoded();
-            //System.out.println(publicKeyBytes);
-            /*StringBuffer retString = new StringBuffer();
-            for (int i = 0; i < publicKeyBytes.length; ++i) {
-                retString.append(Integer.toHexString(0x0100 + (publicKeyBytes[i] & 0x00FF)).substring(1));
-            }
-            //System.out.println("public"+retString);
-            */
-            public_key_user= Base64.encode(publicKeyBytes);
-            Keys.setPubUserKey(public_key_user);
-            /*StringBuffer retString1 = new StringBuffer();
-            for (int i = 0; i < privateKeyBytes.length; ++i) {
-                retString1.append(Integer.toHexString(0x0100 + (privateKeyBytes[i] & 0x00FF)).substring(1));
-            }
-            //System.out.println("private"+retString1);
-            */
-            private_key_user= Base64.encode(privateKeyBytes);
-            Keys.setPrivUserKey(private_key_user);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchProviderException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+  
     
     @Override
     public void run() //(IMPLEMENTED FROM THE RUNNABLE INTERFACE)
     {
         try //HAVE TO HAVE THIS FOR THE in AND out VARIABLES
         {
-            generatersa();
+            
             Scanner in = new Scanner(socket.getInputStream());//GET THE SOCKETS INPUT STREAM (THE STREAM THAT YOU WILL GET WHAT THEY TYPE FROM)
             PrintWriter out = new PrintWriter(socket.getOutputStream());//GET THE SOCKETS OUTPUT STREAM (THE STREAM YOU WILL SEND INFORMATION TO THEM FROM)
 
@@ -98,9 +64,9 @@ public class Client implements Runnable {
                        String PUkey = input.split(" ")[1];
                        String tempDigSig = Hashing.getshahasing(PUkey);//nanti di hash teros di enkrispsi, sementara gini dulu
                        //System.out.println(tempDigSig);
-                       String DigSig=EncryptandDecrypt.encrypt1(tempDigSig, Keys.getPrivUserKey());
+                       String DigSig=EncryptandDecrypt.getEncryptedDatawithPrivateKey(tempDigSig, Keys.getPrivUserKey());
                        Pair <String,String> Certificate = new Pair(PUkey, DigSig);
-                       out.println("PS "+public_key_user);
+                       out.println("PS "+Keys.getPubUserKey());
                        out.flush();
                        out.println("C " + Certificate.getFirst()+" "+Certificate.getSecond());
                        out.flush();

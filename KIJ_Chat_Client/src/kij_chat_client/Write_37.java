@@ -47,6 +47,7 @@ public class Write_37 implements Runnable {
         }
         out.flush();
     }
+    //khusus login,logout,cg,jg
     private String ubah_to_chipertext(String[] vals)
     {
         StringBuilder input_login=new StringBuilder();
@@ -61,7 +62,19 @@ public class Write_37 implements Runnable {
                 input_login.append(Hashing.getshahasing(vals[x]));
             }
         }
-        String data_yang_dikirim= EncryptandDecrypt.encrypt1(input_login.toString(), Keys.getPrivUserKey());
+        String data_yang_dikirim= EncryptandDecrypt.getEncryptedDatawithPrivateKey(input_login.toString(), Keys.getPrivUserKey());
+        return data_yang_dikirim;
+    }
+    //khusus untuk rc
+    private String ubah_to_chipertextrc(String[] vals)
+    {
+        StringBuilder input_login=new StringBuilder();
+        for(int x=0;x<vals.length;x++)
+        {
+            input_login.append(vals[x]+" ");   
+        }
+        input_login.append(log.get(0));
+        String data_yang_dikirim= EncryptandDecrypt.getEncryptedDatawithPrivateKey(input_login.toString(), Keys.getPrivUserKey());
         return data_yang_dikirim;
     }
     @Override
@@ -71,7 +84,7 @@ public class Write_37 implements Runnable {
             while (keepGoing)//WHILE THE PROGRAM IS RUNNING
             {
                 String input = chat.nextLine();	//SET NEW VARIABLE input TO THE VALUE OF WHAT THE CLIENT TYPED IN
-                
+                //System.out.println(input);
                 String vals[] = input.split(" ");
                 if(vals[0].toLowerCase().equals("login")){
                     
@@ -79,6 +92,11 @@ public class Write_37 implements Runnable {
                     out.flush();
                     log.clear();
                     log.add(vals[1]);
+                }
+                else if(vals[0].toLowerCase().equals("rc"))
+                {
+                    out.println(ubah_to_chipertextrc(vals));
+                    out.flush();
                 }
                 else if(vals[0].toLowerCase().equals("logout")){
                     out.println(ubah_to_chipertext(vals));

@@ -40,7 +40,7 @@ public class Read_37 implements Runnable {
                 if (this.in.hasNext()) {
                     //IF THE SERVER SENT US SOMETHING
                     input = this.in.nextLine();
-                    
+                    //System.out.println(input);
                     String vals[] = input.split(" ");
                     if(vals[0].toLowerCase().equals("mg")){
                         
@@ -63,12 +63,26 @@ public class Read_37 implements Runnable {
                     }
                     else if(vals[0].toLowerCase().equals("rc")){
                         String username = vals[1];
-                        out.println("GC " + vals[1] + " " + log.get(0) + " " + key.getUserCertificate());
+                        out.println("GC " + vals[2] + " " + log.get(0) + " " + Keys.getUserCertificate().getFirst()+" "+Keys.getUserCertificate().getSecond());
                         out.flush();
                     }
                     else if(vals[0].toLowerCase().equals("gc")){
-                        Pair<String,String> data= new Pair(vals[2],vals[3]);
-                        key.addUserCertificate(data);
+                        String hashingpub=Hashing.getshahasing(vals[3]);
+                        //System.out.println(vals[4]);
+                        //System.out.println(Keys.getPubServerKey());
+                        String balik=EncryptandDecrypt.getDecryptedDatawithPublicKey(vals[4], Keys.getPubServerKey());
+                        //System.out.println("balik nama" + balik);
+                        //System.out.println("hasing"+hashingpub);
+                        if(hashingpub.equals(balik))
+                        {
+                            Pair<String,String> data= new Pair(vals[2],vals[3]);
+                            //System.out.println("pair"+data.getFirst()+" "+data.getSecond());
+                            Keys.addUserCertificate(data);
+                        }
+                        else
+                        {
+                            System.out.println("Failed RC");
+                        }
                     }
                     else if(vals[0].toLowerCase().equals("success")){
                         System.out.println(input);

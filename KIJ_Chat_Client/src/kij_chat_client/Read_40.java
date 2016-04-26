@@ -34,7 +34,7 @@ public class Read_40 implements Runnable {
                     input = this.in.nextLine();
                     if(input.split(" ")[0].toLowerCase().equals("ps"))
                     {
-                        //System.out.println(input);
+                        System.out.println(input);
                         Keys.setPubServerKey(input.split(" ")[1]);
                     }
                     
@@ -46,11 +46,11 @@ public class Read_40 implements Runnable {
                         {
                             //System.out.println(input);
                             String a=input.split(" ")[1];
-                            //System.out.println(a);
+                            System.out.println(a);
                             String b= input.split(" ")[2];
-                            //System.out.println(b);
-                            String temp_data=EncryptandDecrypt.decrypt1(b, Keys.getPubServerKey());
-                            //System.out.println(temp_data);
+                            System.out.println(b);
+                            String temp_data=EncryptandDecrypt.getDecryptedDatawithPublicKey(b, Keys.getPubServerKey());
+                            System.out.println(temp_data);
                             Pair<String,String>data = new Pair(a,b);//g eruh bener atau salah;
                             Keys.setUserCertificate(data);
                             //System.out.println("certif"+Keys.getUserCertificate().getFirst().toString()+" "+Keys.getUserCertificate().getSecond().toString());

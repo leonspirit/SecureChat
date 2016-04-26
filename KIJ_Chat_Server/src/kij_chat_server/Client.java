@@ -108,7 +108,7 @@ public class Client implements Runnable {
 //					out.flush();//FLUSH THE STREAM
                     //System.out.println(input);
                     // param LOGIN <userName> <pass>
-                    System.out.println(input1);
+                    //System.out.println(input1);
                     if(input1.split(" ")[0].toLowerCase().equals("pu")){
                         String[] vals= input1.split(" ");
                         this._publickeyuserlist.add(new Pair(this.socket, vals[1]));
@@ -116,9 +116,8 @@ public class Client implements Runnable {
                     String input=null;
                     if(input1.contains("=="))
                     {
-                        String[] temp=input1.split("==");
-                        String[] temp1=temp[0].split(" ");
-                        if(temp.length==1&& temp1.length==1)
+                        String[] temp1=input1.split(" ");
+                        if(temp1.length==1)
                         {
                             String tmp1=new String();
                             for(Pair<Socket,String> cur : _publickeyuserlist)
@@ -129,11 +128,11 @@ public class Client implements Runnable {
                                 }
                             }
                             StringBuilder a=new StringBuilder();
-                            a.append(temp[0]);
-                            a.append("==");
+                            a.append(input1);
+                            
                             //System.out.println("kunci"+tmp1);
                             //System.out.println(a);
-                            input=EncryptandDecrypt.decrypt1(a.toString(),tmp1);
+                            input=EncryptandDecrypt.getDecryptedDatawithPublicKey(a.toString(),tmp1);
                             //System.out.println(EncryptandDecrypt.decrypt1(a.toString(),tmp1));
                             //System.out.println("balik"+input);
                         }
@@ -341,8 +340,67 @@ public class Client implements Runnable {
                             out.flush();
                         }               
                     }
-                    
-                    
+                    if(input.split(" ")[0].toLowerCase().equals("rc"))
+                    {
+                        boolean cek=false;
+                        Socket sc=null;
+                        String[] vals= input.split(" ");
+                        for(Pair<Socket,String>a : _loginlist)
+                        {
+                            if(a.getSecond().equals(vals[1]))
+                            {
+                                cek=true;
+                                sc=a.getFirst();
+                                break;
+                            }
+                        }
+                        if(cek)
+                        {
+                            PrintWriter outDest = null;
+                            try {
+                                outDest = new PrintWriter(sc.getOutputStream());
+                            } catch (IOException ex) {
+                                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            outDest.println(input);
+                            outDest.flush();
+                        }
+                        else
+                        {
+                            out.println("FAIL rc");out.flush();
+                        }
+                        
+                    }
+                    if(input.split(" ")[0].toLowerCase().equals("gc"))
+                    {
+                        boolean cek=false;
+                        Socket sc=null;
+                        String[] vals= input.split(" ");
+                        for(Pair<Socket,String>a : _loginlist)
+                        {
+                            if(a.getSecond().equals(vals[1]))
+                            {
+                                cek=true;
+                                sc=a.getFirst();
+                                break;
+                            }
+                        }
+                        if(cek)
+                        {
+                            PrintWriter outDest = null;
+                            try {
+                                outDest = new PrintWriter(sc.getOutputStream());
+                            } catch (IOException ex) {
+                                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            outDest.println(input);
+                            outDest.flush();
+                        }
+                        else
+                        {
+                            out.println("FAIL rc");out.flush();
+                        }
+                    }
                 }
             }
         } catch (Exception e) {

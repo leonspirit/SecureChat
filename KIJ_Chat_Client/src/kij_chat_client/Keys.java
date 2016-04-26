@@ -20,7 +20,7 @@ public class Keys {
     
     private static String pubServerKey;
     private static Pair<String,String> userCertificate;
-    private ArrayList<Pair<String,String>> certificates;
+    private static ArrayList<Pair<String,String>> certificates = new ArrayList<Pair<String,String>>();
 
     public static String getPubUserKey() {
         return pubUserKey;
@@ -56,8 +56,11 @@ public class Keys {
         return userCertificate;
     }*/
 
-    public void addUserCertificate(Pair< String , String> cert ){
-        certificates.add(cert);
+    public static void addUserCertificate(Pair<String,String> cert){
+        //this._publickeyuserlist.add(new Pair(this.socket, vals[1]));
+        //System.out.println(a+" "+b);
+        Keys.certificates.add(cert);
+        
     }
     
     public ArrayList<Pair<String,String>> getCertificates() {
