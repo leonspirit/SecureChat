@@ -57,6 +57,11 @@ public class Read_37 implements Runnable {
                         now.updateGroup(vals[2]);
                         groupList.add(now);
                     }
+                    else if(vals[0].toLowerCase().equals("pm")){
+                        
+                        System.out.println(vals[1] +" " + EncryptandDecrypt.getDecryptedDatawithPrivateKey(vals[2], key.getPrivUserKey()));
+                    }
+                    
                     else if(vals[0].toLowerCase().equals("u")){
                         userList.add(vals[1]);
                         System.out.println(input);

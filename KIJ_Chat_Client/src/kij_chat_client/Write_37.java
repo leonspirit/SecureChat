@@ -107,10 +107,24 @@ public class Write_37 implements Runnable {
                 }
                 else if(vals[0].toLowerCase().equals("pm")){
                     String messageOut = "";
+                    String PUlawan;
+                    boolean cek;//cek suda punya PU lawan belom
                     for (int j = 2; j < vals.length; j++) {
                         messageOut += vals[j] + " ";
                     }
-                    try_pm(vals[1], messageOut, vals[0] , null);
+                    for (Pair<String,String> k : key.getCertificates())
+                    {
+                        if(k.getFirst().toLowerCase().equals(vals[1]))
+                        {
+                           // System.out.println("ini");
+                           // cek=true;
+                            PUlawan=k.getSecond();
+                            try_pm(vals[1], EncryptandDecrypt.getEncryptedDatawithPublicKey(messageOut, PUlawan), vals[0] , null);
+                           // System.out.println("cek:"+cek);
+                            break;
+                        }
+                    }
+                         
                 }
                 else if(vals[0].toLowerCase().equals("cg")){
                     out.println(ubah_to_chipertext(vals));
@@ -125,11 +139,19 @@ public class Write_37 implements Runnable {
                     for (int j = 2; j < vals.length; j++) {
                         messageOut += vals[j] + " ";
                     }
-                    
+                    String PUlawan="";
                     for(Group g : groupList){
                         if(g.getName().equals(vals[1])){
-                            for(String s : g.getGroupList()){
-                                try_pm(s, messageOut, vals[0] , g.getName());
+                            for(String s : g.getGroupList())
+                            {
+                                 for (Pair<String,String> k : key.getCertificates())
+                                 {
+                                    if(k.getFirst().toLowerCase().equals(s))
+                                    {
+                                        PUlawan=k.getSecond();
+                                        try_pm(s, EncryptandDecrypt.getEncryptedDatawithPublicKey(messageOut, PUlawan), vals[0] , g.getName());
+                                    }
+                                 }
                             }
                         }
                     }

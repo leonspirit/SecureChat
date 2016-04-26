@@ -36,7 +36,7 @@ public class Client implements Runnable {
     private boolean private_msg(String input) {
         boolean exist = false;
         String[] vals = input.split(" ");
-
+       
         for (Pair<Socket, String> cur : _loginlist) {
             if (cur.getSecond().equals(vals[2])) {
                 PrintWriter outDest = null;
@@ -50,8 +50,8 @@ public class Client implements Runnable {
                 for (int j = 3; j < vals.length; j++) {
                     messageOut += vals[j] + " ";
                 }
-                System.out.println(this.username + " to " + vals[1] + " : " + messageOut);
-                outDest.println(this.username + ": " + messageOut);
+                System.out.println(this.username + " to " + vals[2] + " : " + messageOut);
+                outDest.println("pm " + this.username + ": " + messageOut);
                 outDest.flush();
                 exist = true;
             }
