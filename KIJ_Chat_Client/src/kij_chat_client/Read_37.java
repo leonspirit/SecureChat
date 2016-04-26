@@ -86,7 +86,7 @@ public class Read_37 implements Runnable {
                         userList.add(vals[1]);
                         System.out.println(input);
                         String kirim_rc="RC "+vals[1]+" ";
-                        System.out.println(kirim_rc);
+                        //System.out.println(kirim_rc);
                         out.println(ubah_to_chipertextrc(kirim_rc.split(" ")));
                         out.flush();
                     }
